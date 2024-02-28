@@ -1,0 +1,11 @@
+Dockerfile
+.dockerignore
+.git*
+README.md
+.npmrc
+.eslint*
+.prettier*
+.vscode
+build
+package
+**/.env

@@ -15,10 +15,18 @@ npm run dev -- --open
 
 ## Building
 
-To create a production version of your app:
+To build a docker image of the application run:
 
 ```bash
-npm run build
+docker build . -t pronunciationpal:v1.0
 ```
+
+Then, to run it as a container, use the following
+
+```bash
+docker run -p 3000:3000 pronunciationpal:v1.0
+```
+
+The version numbers may be set to whatever by changing v1.0 to any other version.
 
 You can preview the production build with `npm run preview`.
