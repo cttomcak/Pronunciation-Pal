@@ -50,9 +50,9 @@
 
 	.delete_button {
 		padding: 4px;
-		background-color: #ffb8b8;
+		background-color: #f9b8ff;
 		color: #000000;
-		border: 2px solid #ff0000;
+		border: 2px solid #e100ff;
 		border-radius: 5px;
 		cursor: pointer;
 	}
