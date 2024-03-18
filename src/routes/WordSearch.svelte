@@ -125,7 +125,7 @@
 
 <div>
 	<button id="recording_button" on:click={record_speech}><strong>Record</strong></button>
-	<input type="text" id="words_text_box" placeholder="Type words here, or press Record" on:keydown={handle_keydown}/>
+	<input type="text" id="words_text_box" placeholder="Type a word here, or press Record" on:keydown={handle_keydown}/>
 	<button on:click={generate_info}><strong>Generate Info</strong></button>
 	<div id="display_errors_here">
 		<strong>Errors:</strong><br>

@@ -19,6 +19,7 @@
 	processed = processed.replaceAll('[', '');
 	processed = processed.replaceAll(']', '');
 	processed = processed.replaceAll('ˌ', '');
+	processed = processed.replaceAll('.', '');
 
 	let visemes: string[] = [];
 	let phonemesList: string[] = [];
