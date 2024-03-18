@@ -1,9 +1,8 @@
 <script lang="ts">
-	import InfoCard from './InfoCard.svelte';
+    import WordVisemes from "./WordVisemes.svelte";
 
-	let recognizer: any;
+    let recognizer: any;
 	let generated_words: string[] = [];
-	let generated_cards: { [id: string] : any; } = {};
 
 	// Check if window is defined (running on the client side)
 	if (typeof window !== 'undefined') {
@@ -16,7 +15,7 @@
 				recognizer.onresult = results_callback;
 			}
 		} else {
-			// TO-DO: Put something on the page lol
+			// TO-DO: Put something on the page for this error lol
 			console.error('SpeechRecognition API not supported on this browser');
 		}
 	}
@@ -51,7 +50,7 @@
 	// A function to generate info on the words in the words text box
 	async function generate_info() {
 		let words_text_box = <HTMLInputElement>document.getElementById('words_text_box');
-		let card_div = document.getElementById('info_cards_container');
+		let card_div = document.getElementById('viseme_container');
 		let error_box = document.getElementById("display_errors_here");
 
 		if (words_text_box && card_div && error_box) {
@@ -96,37 +95,22 @@
 		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
 		const phonemes = data[0]?.phonetic || data[0]?.phonetics[0]?.text || data[0]?.phonetics[1]?.text || 'No phonemes available';
 		const pronunciation = data[0]?.phonetics[0]?.audio || null;
-		const diagrams = 'No diagrams available';
 
-		// Dynamically create InfoCard component and add it to info_cards_container
-		let infoCardsContainer = document.getElementById('info_cards_container');
-		if (infoCardsContainer) {
-			let infoCardComponent = new InfoCard({
-				target: infoCardsContainer,
+		let viseme_container = document.getElementById('viseme_container');
+
+		if (viseme_container)
+        {
+			viseme_container.innerHTML = '';
+			// Dynamically create WordVisemes component and add it to viseme_container
+			let VisemesContainer = new WordVisemes({
+				target: viseme_container,
 				props: {
 					word,
 					definition,
 					phonemes,
-					pronunciation,
-					diagrams
+					pronunciation
 				}
 			});
-			infoCardComponent.$on('remove', handle_remove);
-			generated_cards[word] = infoCardComponent;
-		}
-	}
-
-	// Handle deletetion of cards. This is called by an event started in the InfoCard component.
-	function handle_remove(event: any)
-	{
-		// Get removed word
-		const removed_word = event.detail.word;
-    	generated_words = generated_words.filter((word) => word !== removed_word);
-
-		// Find and destroy the corresponding InfoCard component
-		const removed_card = generated_cards[removed_word]
-		if (removed_card) {
-			removed_card.$destroy();
 		}
 	}
 
@@ -146,7 +130,7 @@
 	<div id="display_errors_here">
 		<strong>Errors:</strong><br>
 	</div>
-	<div id="info_cards_container"></div>
+	<div id="viseme_container"></div>
 </div>
 
 <style>
@@ -165,7 +149,7 @@
 		width: 30%;
 		padding: 10px 10px;
 		margin: 8px 0;
-		/* box-sizing: border-box; */
+        border-radius: 10px;
 	}
 
 	#display_errors_here {
@@ -175,7 +159,6 @@
 		color: #000000;
 		border: 3px solid #ff0000;
 		border-radius: 5px;
-		/* min-width: 200px; */
 		width: fit-content;
 		max-height: 120px;
 		overflow-y: scroll;
@@ -183,9 +166,9 @@
 		scrollbar-color: rgb(255, 66, 66) rgb(255, 153, 153);
 	}
 
-	#info_cards_container {
+	#viseme_container {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: left;
+		justify-content: center;
 	}
 </style>
