@@ -2,7 +2,7 @@
     import WordVisemes from "./WordVisemes.svelte";
 
     let recognizer: any;
-	let generated_words: string[] = [];
+	// let generated_words: string[] = [];
 
 	// Check if window is defined (running on the client side)
 	if (typeof window !== 'undefined') {
@@ -57,12 +57,12 @@
 			let words_list = words_text_box.value.split(' ');
 
 			for (let i = 0; i < words_list.length; i++) {
-				if (generated_words.includes(words_list[i]))
-				{
-					error_box.innerHTML += `Already generated results for ${words_list[i]}<br>`;
-					continue;
-				}
-				generated_words.push(words_list[i]);
+				// if (generated_words.includes(words_list[i]))
+				// {
+				// 	error_box.innerHTML += `Already generated results for ${words_list[i]}<br>`;
+				// 	continue;
+				// }
+				// generated_words.push(words_list[i]);
 
 				console.log('Generating info on "' + words_list[i] + '"');
 
