@@ -39,7 +39,7 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "ɒ" : "O",
     "ʌ" : "U",
     "ʊ" : "U",
-    "ə" : "sil",
+    "ə" : "E", // Changed from sil to E
     "ɜ" : "E",
     "ɛ" : "E",
     "ɑ" : "aa",
