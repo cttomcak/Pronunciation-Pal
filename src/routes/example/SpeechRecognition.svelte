@@ -94,7 +94,7 @@
 	function handle_api_response(word: string, data: any) {
 		// Extract relevant information from the API response
 		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
-		const phonemes = data[0]?.phonetics[0]?.text || 'No phonemes available';
+		const phonemes = data[0]?.phonetic || data[0]?.phonetics[0]?.text || data[0]?.phonetics[1]?.text || 'No phonemes available';
 		const pronunciation = data[0]?.phonetics[0]?.audio || null;
 		const diagrams = 'No diagrams available';
 
@@ -139,7 +139,7 @@
 	}
 </script>
 
-<body>
+<div>
 	<button id="recording_button" on:click={record_speech}><strong>Record</strong></button>
 	<input type="text" id="words_text_box" placeholder="Type words here, or press Record" on:keydown={handle_keydown}/>
 	<button on:click={generate_info}><strong>Generate Info</strong></button>
@@ -147,13 +147,9 @@
 		<strong>Errors:</strong><br>
 	</div>
 	<div id="info_cards_container"></div>
-</body>
+</div>
 
 <style>
-	body {
-		font-family: 'Arial', sans-serif;
-	}
-
 	button {
 		margin: 5px;
 		padding: 10px;
@@ -165,7 +161,7 @@
 	}
 
 	input[type='text'] {
-		min-width: 220px;
+		min-width: 300px;
 		width: 30%;
 		padding: 10px 10px;
 		margin: 8px 0;

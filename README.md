@@ -2,10 +2,17 @@
 ## Introduction
 Effective pronunciation is a significant challenge for many language learners, often leading to communication barriers. Pronunciation Pal addresses this issue by offering a user-friendly platform for practice and improvement. The primary target audience includes individuals who are deaf and hard of hearing, language learners across various age groups and proficiency levels, and speech therapy clients.
 
-## Release Notes (Milestone 1)
+## Milestone 1 Release Notes
 The components of our project that are currently working for this submission are user authentication as well as a basic word info page. The user authentication uses email, name, and password. For the security of our users, the passwords are hashed and salted before storage. The basic word info page takes text (which can come from speech input) and generates info for the given words, including definition, phonemes, and official audio if available from the API.
 
-There are currently no other branches to review.
+## Milestone 2 Release Notes
+The major development for this milestone was the main page. We implemented functionality and styling for the word search feature, where with the help of a free dictionary API, our code would output all the phonemes and visemes for the pronunciation of that word. For example, inputting the word 'test' into the textbox would output the definition, the phonemes, the pronunciation, and images for the necessary facial positions to pronounce the word (along with a short description of each position).
+
+Also important, we have gathered the necessary speech sound diagrams and have uploaded them in the static folder alongside the visemes that currently appear on the site. We have not yet implemented the functionality to make them appear when using the word search feature, but that will come soon.
+
+We also added a couple other components, like a global layout in +layout.svelte that provides a header and footer for all the pages on our site.
+
+There are currently no other branches to review besides 'main'.
 
 ## Developing
 
