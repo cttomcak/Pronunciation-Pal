@@ -156,6 +156,7 @@
 
 <style>
 	.search-wrapper {
+		margin-top: 2rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -174,7 +175,8 @@
 		line-height: 28px;
 		align-items: center;
 		position: relative;
-		max-width: 500px;
+		max-width: 300px;
+		z-index: 1;
 	}
 
 	.input {
@@ -186,7 +188,7 @@
 		border: 2px solid transparent;
 		border-radius: 50px;
 		outline: none;
-		background-color: #f3f3f4;
+		background-color: #ffffff;
 		color: #0d0c22;
 		transition: .3s ease;
 	}
@@ -197,9 +199,9 @@
 
 	.input:focus, input:hover {
 		outline: none;
-		border-color: rgba(234,76,137,0.4);
+		border-color: rgba(35, 35, 35, 0.4);
 		background-color: #fff;
-		box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+		box-shadow: 0 0 0 4px rgba(66, 66, 66, 0.1);
 	}
 
 	.icon {

@@ -37,6 +37,7 @@ like the header and footer. Just has some basic css right now. -->
 		justify-content: center;
 		/* align-items: center; */
 		padding: 15px;
+		background-color: rgb(245, 245, 245);
 	}
 
 	footer {
