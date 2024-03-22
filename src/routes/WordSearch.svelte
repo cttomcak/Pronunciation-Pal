@@ -1,7 +1,11 @@
 <script lang="ts">
     import WordVisemes from "./WordVisemes.svelte";
 
+	let speech_enabled: boolean = false;
     let recognizer: any;
+	let recording: boolean = false;
+	let search_text: string = '';
+	let errors: string[] = [];
 	// let generated_words: string[] = [];
 
 	// Check if window is defined (running on the client side)
@@ -13,48 +17,43 @@
 			recognizer = new SpeechRecognition();
 			if (recognizer) {
 				recognizer.onresult = results_callback;
+				speech_enabled = true;
 			}
 		} else {
-			// TO-DO: Put something on the page for this error lol
 			console.error('SpeechRecognition API not supported on this browser');
 		}
 	}
 
 	// Runs when record button is pressed
 	function record_speech() {
-		let recording_button = document.getElementById('recording_button');
-		if (recording_button) {
-			recording_button.innerHTML = 'Recording...';
-		}
-		if (recognizer) {
-			let words_text_box = <HTMLInputElement>document.getElementById('words_text_box');
-			if (words_text_box) {
-				words_text_box.value = 'Recording...';
-			}
-			recognizer.start();
-		}
+		recording = true;
+		// Don't need to check since the button won't exist if feature not supported
+		recognizer.start();
 	}
 
 	// Runs when the speech recognition API automatically returns results
 	function results_callback(result: any) {
-		let recording_button = document.getElementById('recording_button');
-		if (recording_button) {
-			recording_button.innerHTML = 'Record';
-		}
-		let words_text_box = <HTMLInputElement>document.getElementById('words_text_box');
-		if (words_text_box) {
-			words_text_box.value = result.results[0][0].transcript;
-		}
+		recording = false;
+		search_text = result.results[0][0].transcript;
+	}
+
+	// Shows an error message for 10 seconds, then removes the error from the list
+	function show_error(error: string) {
+		console.log("test");
+		errors.push(error);
+		errors = errors;
+		setTimeout(() => {
+			errors.shift();
+			errors = errors;
+		}, 10000);
 	}
 
 	// A function to generate info on the words in the words text box
 	async function generate_info() {
-		let words_text_box = <HTMLInputElement>document.getElementById('words_text_box');
 		let card_div = document.getElementById('viseme_container');
-		let error_box = document.getElementById("display_errors_here");
 
-		if (words_text_box && card_div && error_box) {
-			let words_list = words_text_box.value.split(' ');
+		if (search_text.length > 0 && card_div) {
+			let words_list = search_text.split(' ');
 
 			for (let i = 0; i < words_list.length; i++) {
 				// if (generated_words.includes(words_list[i]))
@@ -80,11 +79,11 @@
 						handle_api_response(words_list[i], data);
 					} else {
 						console.error(`Error: ${response.status} - ${data.message}`);
-						error_box.innerHTML += `No results for ${words_list[i]}, sorry!<br>`;		
+						show_error(`No results for ${words_list[i]}, sorry!`);
 					}
 				} catch (error) {
 					console.error('Error fetching data:', error);
-					error_box.innerHTML += `Error fetching data for ${words_list[i]}, sorry!<br>`;
+					show_error(`Error fetching data for ${words_list[i]}, sorry!`);
 				}
 			}
 		}
@@ -123,17 +122,44 @@
 	}
 </script>
 
-<div>
-	<button id="recording_button" on:click={record_speech}><strong>Record</strong></button>
-	<input type="text" id="words_text_box" placeholder="Type a word here, or press Record" on:keydown={handle_keydown}/>
-	<button on:click={generate_info}><strong>Generate Info</strong></button>
-	<div id="display_errors_here">
-		<strong>Errors:</strong><br>
+<div class="search-wrapper">
+	<div>
+		<!-- Record button, hides itself if not supported -->
+		{#if speech_enabled}
+			<button id="recording_button" on:click={record_speech}>
+				<strong>
+					{#if recording}
+						Recording...
+					{:else}
+						Record
+					{/if}
+				</strong>
+			</button>
+		{/if}
+		<span style="display: inline-block;">
+			<div class="search">
+				<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+				<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown} on:focusout={generate_info} />
+			</div>
+		</span>
 	</div>
+	{#if errors.length > 0}
+		<div id="display_errors_here">
+			<strong>Errors:</strong>
+			{#each errors as error}
+				<p>{error}</p>
+			{/each}
+		</div>
+	{/if}
 	<div id="viseme_container"></div>
 </div>
 
 <style>
+	.search-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	button {
 		margin: 5px;
 		padding: 10px;
@@ -143,13 +169,45 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+	.search {
+		display: flex;
+		line-height: 28px;
+		align-items: center;
+		position: relative;
+		max-width: 500px;
+	}
 
-	input[type='text'] {
-		min-width: 300px;
-		width: 30%;
-		padding: 10px 10px;
-		margin: 8px 0;
-        border-radius: 10px;
+	.input {
+		width: 100%;
+		height: 40px;
+		line-height: 28px;
+		padding: 0 1rem;
+		padding-left: 2.5rem;
+		border: 2px solid transparent;
+		border-radius: 50px;
+		outline: none;
+		background-color: #f3f3f4;
+		color: #0d0c22;
+		transition: .3s ease;
+	}
+
+	.input::placeholder {
+		color: #9e9ea7;
+	}
+
+	.input:focus, input:hover {
+		outline: none;
+		border-color: rgba(234,76,137,0.4);
+		background-color: #fff;
+		box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+	}
+
+	.icon {
+		position: absolute;
+		left: 1rem;
+		fill: #9e9ea7;
+		width: 1rem;
+		height: 1rem;
 	}
 
 	#display_errors_here {
