@@ -79,21 +79,52 @@
 </script>
 
 <div class="general_info">
-	<!-- Display some other info about the word -->
-	<p><strong>{word.toUpperCase()}</strong></p>
-	<p><strong>{definition}</strong></p>
-	<p><strong>{phonemes}</strong></p>
-	{#if pronunciation}
-		<p><AudioPlayer audioUrl={pronunciation} /></p>
-	{:else}
-		<p><strong>No pronunciation available</strong></p>
-	{/if}
-	<!-- Where the viseme pictures go -->
-	<div id="pictures_go_here"></div>
+	<div class="flex-column-center background-white">
+		<!-- Display some other info about the word -->
+		<div class="info-box">
+			<div class="definition-box">
+			<p><strong>{word.toUpperCase()}</strong></p>
+			<p class="phonemes">{phonemes}</p>
+			</div>
+			<p>{definition}</p>
+			{#if pronunciation}
+				<p><AudioPlayer audioUrl={pronunciation} /></p>
+			{:else}
+				<p><strong>No pronunciation available</strong></p>
+			{/if}
+		</div>
+		<!-- Where the viseme pictures go -->
+		<div id="pictures_go_here"></div>
+	</div>
 </div>
 
 <style>
 	.general_info {
+		margin-top: 2rem;
+	}
+
+	.flex-column-center {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.definition-box {
+		display: flex;
+		flex-direction: row;
+	}
+	.definition-box p {
+		margin: 1rem 0 0 0;
+	}
+	.phonemes {
+		margin-top: 1.8rem !important;
+	}
+	.definition-box strong {
+		font-size: xx-large;
+		margin-right: 1rem;
+	}
+
+	.background-white {
 		background-color: white;
 	}
 
