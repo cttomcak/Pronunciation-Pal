@@ -1,6 +1,5 @@
 <script>
 	import WordSearch from "./WordSearch.svelte";
-
 </script>
 
 <svelte:head>
