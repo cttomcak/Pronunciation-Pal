@@ -133,7 +133,7 @@
 </script>
 
 <div class="search-wrapper">
-	<div>
+	<div class="record-buttons">
 		<!-- Record button, hides itself if not supported -->
 		{#if speech_enabled}
 			<button id="recording_button" on:click={record_speech}>
@@ -141,7 +141,7 @@
 					{#if recording}
 						Recording...
 					{:else}
-						Record
+						Record (Browser)
 					{/if}
 				</strong>
 			</button>
@@ -172,16 +172,23 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.record-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	button {
 		margin: 5px;
 		padding: 10px;
-		background-color: #4285f4;
+		background-color: #4942E4;
 		color: #ffffff;
-		border: 3px solid #0062ff;
+		border: 3px solid #11009E;
 		border-radius: 5px;
 		cursor: pointer;
 	}
 	.search {
+		margin: 5px;
+		padding: 10px;
 		display: flex;
 		line-height: 28px;
 		align-items: center;
@@ -196,9 +203,8 @@
 		line-height: 28px;
 		padding: 0 1rem;
 		padding-left: 2.5rem;
-		border: 2px solid transparent;
+		border: 2px solid black;
 		border-radius: 50px;
-		outline: none;
 		background-color: #ffffff;
 		color: #0d0c22;
 		transition: .3s ease;
@@ -210,9 +216,9 @@
 
 	.input:focus, input:hover {
 		outline: none;
-		border-color: rgba(35, 35, 35, 0.4);
-		background-color: #fff;
-		box-shadow: 0 0 0 4px rgba(66, 66, 66, 0.1);
+		border-color: rgb(0, 0, 0);
+		background-color: #ffffff;
+		box-shadow: 0 0 0 2px rgb(0, 0, 0);
 	}
 
 	.icon {

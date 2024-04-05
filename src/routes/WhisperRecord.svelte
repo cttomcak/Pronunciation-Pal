@@ -89,14 +89,45 @@
 	}
 </script>
 
-<div>
+<div class="record-buttons">
 	<form on:submit={submitForm} enctype="multipart/form-data">
-		<input type="file" name="file" accept="audio/*" required /><br />
+		<input type="file" name="file" accept="audio/*" required />
 		<button type="submit">Transcribe File</button>
 	</form>
 	{#if !recording}
-		<button on:click={startRecording}>START Recording</button>
+	<button on:click={startRecording}>Record (Whisper AI)</button>
 	{:else}
-		<button on:click={stopRecording}>STOP Recording</button>
+	<button on:click={stopRecording}>Recording...</button>
 	{/if}
 </div>
+
+<style>
+	.record-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	button {
+		margin: 5px;
+		padding: 10px;
+		background-color: #4942E4;
+		color: #ffffff;
+		border: 3px solid #11009E;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	input::file-selector-button {
+		margin: 5px;
+		padding: 10px;
+		background-color: #4942E4;
+		color: #ffffff;
+		border: 3px solid #11009E;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+</style>
