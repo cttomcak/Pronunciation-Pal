@@ -14,6 +14,13 @@ We also added a couple other components, like a global layout in +layout.svelte 
 
 There are currently no other branches to review besides 'main'.
 
+## Milestone 3 Release Notes
+In this milestone, we added support with our back-end for OpenAI's Whisper speech-to-text model. This is for two reasons: 1. So that speech-to-text transcription is available on every browser, no matter what operating system you're on, and 2. Because it is one of the highest quality models, being more likely able to transcribe bad pronunciations. These are both necessary for our web application.
+
+We also added two more features. The first is a new dictionary for mapping phonemes to speech-sound diagrams instead of visemes, so that we can provide more information about each phoneme. The next is toggle switches to switch between the viseme/face images and the new speech sound diagrams. These improve the main page.
+
+The branch that needs to be looked at for this milestone is the 'add-whisper' branch, which is most up to date, not main. To see the limited back-end NodeJS code that makes calls to the Whisper API, go to this repository: https://github.com/cttomcak/questionable-whisper-backend. We can provide the API key if needed, as it is not stored in the repository.
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:

@@ -97,7 +97,7 @@
 	{#if !recording}
 	<button on:click={startRecording}>Record (Whisper AI)</button>
 	{:else}
-	<button on:click={stopRecording}>Recording...</button>
+	<button id="while_recording" on:click={stopRecording}><strong>Stop Recording</strong></button>
 	{/if}
 </div>
 
@@ -129,5 +129,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+	#while_recording {
+		background-color: #e233e5;
+		border: 3px solid #9e0077;
 	}
 </style>
