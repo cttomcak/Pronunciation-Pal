@@ -1,9 +1,22 @@
-<script>
+<script lang="ts">
+	let current_title: string = "Pronunciation Pal"
+	let english_title: string = "Pronunciation Pal";
+	let ipa_title: string = "/pɹəˌnaʊn.siˈeɪ.ʃən/ /pal/";
+
+	function swap_title() {
+		if (current_title == english_title) {
+			current_title = ipa_title
+		} else {
+			current_title = english_title
+		}
+	}
 </script>
 
 <header>
 	<nav class="top-navbar">
-		<strong class="navbar-logo">Pronunciation Pal</strong>
+		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<strong class="navbar-logo" on:click={swap_title}>{current_title}</strong>
 		<input type="checkbox" id="nav-check">
 		<label for="nav-check" class="nav-chlab">☰</label>
 		<div class="navbar-links">
@@ -12,6 +25,7 @@
 			<a href="/auth/login">Login</a>
 			<a href="/auth/register">Register</a>
 			<a href="/profile">Profile</a>
+			<a href="/games">🕹️</a>
 		</div>
 	</nav>
 </header>
