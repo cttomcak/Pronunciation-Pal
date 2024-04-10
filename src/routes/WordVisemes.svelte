@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
 	import VisemeImage from "./VisemeImage.svelte";
 	import { phoneme_to_viseme_dict } from '../lib/PhonemeVisemeDict';
+	import { phoneme_to_diagram_dict } from '../lib/PhonemeVisemeDict';
 	import AudioPlayer from "$lib/AudioPlayer.svelte";
 
 	export let word: string = '';
@@ -23,25 +24,31 @@
 
 	let visemes: string[] = [];
 	let phonemesList: string[] = [];
+	let diagrams: string[] = [];
 	if (phonemes != 'No phonemes available')
 	{
 		for (let i = 0; i<processed.length; i++)
 		{
 			let viseme;
+			let diagram;
 
 			// Case if the next phoneme is 2 characters
 			if ((i != processed.length-1) && phoneme_to_viseme_dict[processed.substring(i, i+2)]) {
 				viseme = phoneme_to_viseme_dict[processed.substring(i, i+2)];
+				diagram = phoneme_to_diagram_dict[processed.substring(i, i+2)];
 				phonemesList.push(processed.substring(i, i+2));
 				visemes.push(viseme);
+				diagrams.push(diagram);
 				i += 1;
 			}
 			// Case if the next phoneme is 1 character
 			else if (phoneme_to_viseme_dict[processed.substring(i, i+1)])
 			{
 				viseme = phoneme_to_viseme_dict[processed.substring(i, i+1)];
+				diagram = phoneme_to_diagram_dict[processed.substring(i, i+1)];
 				phonemesList.push(processed.substring(i, i+1));
 				visemes.push(viseme);
+				diagrams.push(diagram);
 			}
 			// We can't find the phoneme. Give error.
 			else
@@ -50,7 +57,7 @@
 				console.error("Full phonemes = \"" + processed + "\"");
 			}
 		}
-		console.log("Phonemes: " + processed + '\n' + "Visemes: " + visemes);
+		console.log("Phonemes: " + processed + '\n' + "Visemes: " + visemes + '\n' + "Diagrams: " + diagrams);
 	}
 
     // Call the appendImages function when the component mounts
@@ -65,12 +72,13 @@
             // Loop through each viseme filename
             for (let i = 0; i < visemes.length; i++)
             {
-				// Create a new instance of the VisemeImage component with the proper viseme and phoneme
+				// Create a new instance of the VisemeImage component with the proper viseme, phoneme, and image
                 const visemeImage = new VisemeImage({
                     target: picturesDiv,
                     props: {
                         viseme: visemes[i],
-						phoneme: phonemesList[i]
+						phoneme: phonemesList[i],
+						diagram: diagrams[i]
                     }
                 });
             }

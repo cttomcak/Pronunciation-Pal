@@ -5,6 +5,7 @@
     let recognizer: any;
 	let recording: boolean = false;
 	let search_text: string = '';
+	let real_images : boolean = true;
 	let errors: string[] = [];
 	// let generated_words: string[] = [];
 
@@ -46,6 +47,11 @@
 			errors.shift();
 			errors = errors;
 		}, 10000);
+	}
+
+	// toggles real_images toggle to the opposite of what it is now 
+	function image_toggle() {
+		real_images = !real_images;
 	}
 
 	// A function to generate info on the words in the words text box
@@ -143,6 +149,12 @@
 			</div>
 		</span>
 	</div>
+	<button class="image-diagram-toggle-button" on:click={image_toggle}>
+        <label class="switch">
+            <input type="checkbox">
+        </label>
+        <strong>Show speech-sound diagrams instead of images</strong>
+    </button>
 	{#if errors.length > 0}
 		<div id="display_errors_here">
 			<strong>Errors:</strong>
@@ -170,6 +182,17 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+
+	.image-diagram-toggle-button {
+        margin: 5px;
+        padding: 10px;
+        background-color: #0062ff;
+        color: #ffffff;
+        border: 0px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
 	.search {
 		display: flex;
 		line-height: 28px;

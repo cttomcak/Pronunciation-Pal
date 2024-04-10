@@ -1,7 +1,9 @@
 <script lang='ts'>
     export let viseme: any;
     export let phoneme: any;
+    export let diagram: any;
     import { viseme_description_dict } from '../lib/PhonemeVisemeDict';
+    import { phoneme_to_diagram_dict } from '../lib/PhonemeVisemeDict';
 </script>
 
 <div class="image_div">
@@ -9,6 +11,8 @@
     <img src={`visemes/${viseme}.jpg`} class="viseme-image" alt={`Viseme ${viseme}`}>
     <!-- The angled viseme image -->
     <img src={`visemes/${viseme}45.jpg`} class="viseme-image" alt={`Viseme ${viseme} Angled`}>
+    <!-- The speech-sound diagram -->
+    <img src={`visemes/${diagram}.svg`} class="diagram" alt={`Diagram ${diagram}`}>
     <!-- TODO: Make a toggle for phoneme/viseme -->
     <h3 class="card-title">{viseme}</h3>
     <p class="viseme-description">
@@ -29,6 +33,10 @@
         margin: 0 0 10px 10px;
     }
     .viseme-image {
+        width: 100%; /* Set width of images */
+        height: auto; /* Maintain aspect ratio */
+    }
+    .diagram {
         width: 100%; /* Set width of images */
         height: auto; /* Maintain aspect ratio */
     }
