@@ -25,20 +25,28 @@
 		}
 	}
 
-	// Runs when record button is pressed
+	/**
+     * Starts recording speech using the browser's speech recognition API.
+     */
 	function record_speech() {
 		recording = true;
 		// Don't need to check since the button won't exist if feature not supported
 		recognizer.start();
 	}
 
-	// Runs when the speech recognition API automatically returns results
-	function results_callback(result: any) {
+	/**
+     * Callback function for speech recognition results.
+     * @param {SpeechRecognitionEvent} result - The result object from speech recognition.
+     */
+	function results_callback(result: SpeechRecognitionEvent) {
 		recording = false;
 		search_text = result.results[0][0].transcript;
 	}
 
-	// Shows an error message for 10 seconds, then removes the error from the list
+	/**
+     * Displays an error message for a certain duration.
+     * @param {string} error - The error message to display.
+     */
 	function show_error(error: string) {
 		console.log("test");
 		errors.push(error);
@@ -49,7 +57,9 @@
 		}, 10000);
 	}
 
-	// A function to generate info on the words in the words text box
+	/**
+     * Generates information for words in the search text box.
+     */
 	async function generate_info() {
 		let card_div = document.getElementById('viseme_container');
 
@@ -90,6 +100,11 @@
 		}
 	}
 
+	/**
+     * Handles the API response for a word.
+     * @param {string} word - The word for which the API response is being handled.
+     * @param {any} data - The API response data.
+     */
 	function handle_api_response(word: string, data: any) {
 		// Extract relevant information from the API response
 		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
@@ -114,15 +129,22 @@
 		}
 	}
 
-	// For input textbox, so a user can press 'Enter' to generate data.
-	function handle_keydown(event: any)
+	/**
+     * Handles keydown event for input textbox.
+     * @param {KeyboardEvent} event - The keydown event object.
+     */
+	function handle_keydown(event: KeyboardEvent)
 	{
 		if (event.key === 'Enter' || event.code === 'Enter') {
 			generate_info();
 		}
 	}
 
-	function handleWhisperEvent(event: any)
+	/**
+     * Handles event emitted by WhisperRecord component.
+     * @param {CustomEvent} event - The custom event object.
+     */
+	function handleWhisperEvent(event: CustomEvent)
 	{
 		const transcription = event.detail.transcription;
 		if (transcription)

@@ -1,17 +1,22 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
 
-	let mediaRecorder: any;
-	let chunks: any = [];
-	let transcription = '';
-	let recording = false;
+	// Declaring variables for media recording
+    let mediaRecorder: MediaRecorder | null;
+    let chunks: BlobPart[] = [];
+    let transcription = '';
+    let recording = false;
 
+	/**
+     * Starts recording audio from the user's microphone.
+     * @returns {Promise<void>}
+     */
 	async function startRecording() {
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 			mediaRecorder = new MediaRecorder(stream);
 
-			mediaRecorder.addEventListener('dataavailable', (event: { data: any }) => {
+			mediaRecorder.addEventListener('dataavailable', (event: { data: BlobPart }) => {
 				chunks.push(event.data);
 			});
 
@@ -47,6 +52,9 @@
 		}
 	}
 
+	/**
+     * Stops recording audio.
+     */
 	function stopRecording() {
 		if (mediaRecorder && mediaRecorder.state !== 'inactive') {
 			mediaRecorder.stop();
@@ -55,10 +63,15 @@
 		}
 	}
 
-	async function submitForm(event: any) {
+	/**
+     * Submits form data for transcription.
+     * @param {Event} event - The form submission event.
+     * @returns {Promise<void>}
+     */
+	async function submitForm(event: Event) {
 		event.preventDefault();
 
-		const formData = new FormData(event.target);
+		const formData = new FormData(event.target as HTMLFormElement);
 
 		try {
 			const response = await fetch('http://localhost:3000/transcribe', {
@@ -81,7 +94,9 @@
 
     const dispatch = createEventDispatcher();
 
-	// Sends an event to the parent component to set the search bar text
+	/**
+     * Sends an event to the parent component to set the search bar text.
+     */
 	function set_parent_text() {
         transcription = transcription.replaceAll('.', '');
 		transcription = transcription.replaceAll(',', '');
