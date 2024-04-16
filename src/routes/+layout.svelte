@@ -21,6 +21,9 @@ like the header and footer. Just has some basic css right now. -->
 				SWAG Team GitHub
 			</a>
 		</p>
+		<p>
+			<a href="https://www.flaticon.com/" title="icons">Icons created by Freepik - Flaticon</a>
+		</p>
 	</footer>
 </div>
 
@@ -43,6 +46,7 @@ like the header and footer. Just has some basic css right now. -->
 	footer {
 		margin-top: 10px;
 		display: flex;
+		flex-direction: column;
 		justify-content: center; /* Centers content on horizontal axis */
 		align-items: center; /* Centers content on vertical axis */
 		background-color: #4942E4;
