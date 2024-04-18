@@ -1,0 +1,194 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>pronunciation-pal documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="./" class="navbar-brand">pronunciation-pal documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1>Pronunciation Pal</h1>
+<h2>Introduction</h2>
+<p>Effective pronunciation is a significant challenge for many language learners, often leading to communication barriers. Pronunciation Pal addresses this issue by offering a user-friendly platform for practice and improvement. The primary target audience includes individuals who are deaf and hard of hearing, language learners across various age groups and proficiency levels, and speech therapy clients.</p>
+<h2>Milestone 1 Release Notes</h2>
+<p>The components of our project that are currently working for this submission are user authentication as well as a basic word info page. The user authentication uses email, name, and password. For the security of our users, the passwords are hashed and salted before storage. The basic word info page takes text (which can come from speech input) and generates info for the given words, including definition, phonemes, and official audio if available from the API.</p>
+<h2>Milestone 2 Release Notes</h2>
+<p>The major development for this milestone was the main page. We implemented functionality and styling for the word search feature, where with the help of a free dictionary API, our code would output all the phonemes and visemes for the pronunciation of that word. For example, inputting the word &#39;test&#39; into the textbox would output the definition, the phonemes, the pronunciation, and images for the necessary facial positions to pronounce the word (along with a short description of each position).</p>
+<p>Also important, we have gathered the necessary speech sound diagrams and have uploaded them in the static folder alongside the visemes that currently appear on the site. We have not yet implemented the functionality to make them appear when using the word search feature, but that will come soon.</p>
+<p>We also added a couple other components, like a global layout in +layout.svelte that provides a header and footer for all the pages on our site.</p>
+<p>There are currently no other branches to review besides &#39;main&#39;.</p>
+<h2>Milestone 3 Release Notes</h2>
+<p>In this milestone, we added support with our back-end for OpenAI&#39;s Whisper speech-to-text model. This is for two reasons: 1. So that speech-to-text transcription is available on every browser, no matter what operating system you&#39;re on, and 2. Because it is one of the highest quality models, being more likely able to transcribe bad pronunciations. These are both necessary for our web application.</p>
+<p>The branch that needs to be looked at for this milestone is the &#39;add-whisper&#39; branch, which is most up to date, not main. To see the limited back-end NodeJS code that makes calls to the Whisper API, go to this repository: <a href="https://github.com/cttomcak/questionable-whisper-backend">https://github.com/cttomcak/questionable-whisper-backend</a>. We can provide the API key if needed, as it is not stored in the repository.</p>
+<h2>Developing</h2>
+<p>Once you&#39;ve created a project and installed dependencies with <code>npm install</code> (or <code>pnpm install</code> or <code>yarn</code>), start a development server:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open</code></pre></div><h2>Building</h2>
+<p>To build a docker image of the application run:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">docker build . -t pronunciationpal:v1.0</code></pre></div><p>Then, to run it as a container, use the following</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">docker run -p 3000:3000 pronunciationpal:v1.0</code></pre></div><p>The version numbers may be set to whatever by changing v1.0 to any other version.</p>
+<p>You can preview the production build with <code>npm run preview</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

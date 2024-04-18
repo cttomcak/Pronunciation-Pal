@@ -1,5 +1,6 @@
 <script lang="ts">
     import WordVisemes from "./WordVisemes.svelte";
+	import WhisperRecord from "./WhisperRecord.svelte";
 
 	let speech_enabled: boolean = false;
     let recognizer: any;
@@ -24,20 +25,28 @@
 		}
 	}
 
-	// Runs when record button is pressed
+	/**
+     * Starts recording speech using the browser's speech recognition API.
+     */
 	function record_speech() {
 		recording = true;
 		// Don't need to check since the button won't exist if feature not supported
 		recognizer.start();
 	}
 
-	// Runs when the speech recognition API automatically returns results
-	function results_callback(result: any) {
+	/**
+     * Callback function for speech recognition results.
+     * @param {SpeechRecognitionEvent} result - The result object from speech recognition.
+     */
+	function results_callback(result: SpeechRecognitionEvent) {
 		recording = false;
 		search_text = result.results[0][0].transcript;
 	}
 
-	// Shows an error message for 10 seconds, then removes the error from the list
+	/**
+     * Displays an error message for a certain duration.
+     * @param {string} error - The error message to display.
+     */
 	function show_error(error: string) {
 		console.log("test");
 		errors.push(error);
@@ -48,7 +57,9 @@
 		}, 10000);
 	}
 
-	// A function to generate info on the words in the words text box
+	/**
+     * Generates information for words in the search text box.
+     */
 	async function generate_info() {
 		let card_div = document.getElementById('viseme_container');
 
@@ -89,6 +100,11 @@
 		}
 	}
 
+	/**
+     * Handles the API response for a word.
+     * @param {string} word - The word for which the API response is being handled.
+     * @param {any} data - The API response data.
+     */
 	function handle_api_response(word: string, data: any) {
 		// Extract relevant information from the API response
 		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
@@ -113,27 +129,42 @@
 		}
 	}
 
-	// For input textbox, so a user can press 'Enter' to generate data.
-	function handle_keydown(event: any)
+	/**
+     * Handles keydown event for input textbox.
+     * @param {KeyboardEvent} event - The keydown event object.
+     */
+	function handle_keydown(event: KeyboardEvent)
 	{
 		if (event.key === 'Enter' || event.code === 'Enter') {
 			generate_info();
 		}
 	}
+
+	/**
+     * Handles event emitted by WhisperRecord component.
+     * @param {CustomEvent} event - The custom event object.
+     */
+	function handleWhisperEvent(event: CustomEvent)
+	{
+		const transcription = event.detail.transcription;
+		if (transcription)
+		{
+			search_text = transcription;
+		}
+	}
 </script>
 
 <div class="search-wrapper">
-	<div>
+	<div class="record-buttons">
+		<WhisperRecord on:set_parent_text={handleWhisperEvent}/>
 		<!-- Record button, hides itself if not supported -->
 		{#if speech_enabled}
 			<button id="recording_button" on:click={record_speech}>
-				<strong>
-					{#if recording}
-						Recording...
-					{:else}
-						Record
-					{/if}
-				</strong>
+				{#if recording}
+					Recording...
+				{:else}
+					Record (Browser)
+				{/if}
 			</button>
 		{/if}
 		<span style="display: inline-block;">
@@ -161,17 +192,24 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.record-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	button {
 		margin: 5px;
 		padding: 10px;
-		background-color: #4285f4;
+		background-color: #4942E4;
 		color: #ffffff;
-		border: 3px solid #0062ff;
+		border: 3px solid #11009E;
 		border-radius: 5px;
 		cursor: pointer;
 	}
 
 	.search {
+		margin: 5px;
+		padding: 10px;
 		display: flex;
 		line-height: 28px;
 		align-items: center;
@@ -186,9 +224,8 @@
 		line-height: 28px;
 		padding: 0 1rem;
 		padding-left: 2.5rem;
-		border: 2px solid transparent;
+		border: 2px solid black;
 		border-radius: 50px;
-		outline: none;
 		background-color: #ffffff;
 		color: #0d0c22;
 		transition: .3s ease;
@@ -200,9 +237,9 @@
 
 	.input:focus, input:hover {
 		outline: none;
-		border-color: rgba(35, 35, 35, 0.4);
-		background-color: #fff;
-		box-shadow: 0 0 0 4px rgba(66, 66, 66, 0.1);
+		border-color: rgb(0, 0, 0);
+		background-color: #ffffff;
+		box-shadow: 0 0 0 2px rgb(0, 0, 0);
 	}
 
 	.icon {

@@ -37,7 +37,7 @@ like the header and footer. Just has some basic css right now. -->
 		justify-content: center;
 		/* align-items: center; */
 		padding: 15px;
-		background-color: rgb(245, 245, 245);
+		background-color: #FAE7F3;
 	}
 
 	footer {
@@ -46,6 +46,8 @@ like the header and footer. Just has some basic css right now. -->
 		display: flex;
 		justify-content: center; /* Centers content on horizontal axis */
 		align-items: center; /* Centers content on vertical axis */
+		background-color: #4942E4;
+		color: white;
 	}
 
 	footer a {

@@ -16,12 +16,15 @@
 </header>
 
 <style>
+	header {
+		background-color: #4942E4;
+	}
 	.top-navbar {
 		margin-right: auto;
 		margin-left: auto;
 		width: 80%;
 		font-size: 18px;
-		background-color: #ffffff;
+		background-color: #4942E4;
 		z-index: 1000;
 	}
 	@media (max-width: 900px) {
@@ -32,11 +35,12 @@
 	.navbar-logo {
 		display: inline-block;
 		padding: 10px;
+		color: white;
 	}
 	#nav-check,
 	.nav-chlab {
 		display: none;
-		color: black;
+		color: white;
 	}
 	.navbar-links {
 		display: inline-block;
@@ -44,13 +48,13 @@
 	}
 	.navbar-links > a {
 		transition: all 0.4s ease-in;
-		color: black;
+		color: white;
 		display: inline-block;
 		padding: 10px;
 		text-decoration: none;
 	}
 	.navbar-links > a:hover {
-		background-color: #c5c5c5;
+		background-color: #11009E;
 	}
 	@media (max-width: 600px) {
 		.nav-chlab {
