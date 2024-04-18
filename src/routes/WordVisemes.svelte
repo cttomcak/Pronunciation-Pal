@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import VisemeImage from './VisemeImage.svelte';
 	import { phoneme_to_viseme_dict } from '../lib/PhonemeVisemeDict';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';

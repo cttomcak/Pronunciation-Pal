@@ -170,6 +170,7 @@
 		border-radius: 5px;
 		cursor: pointer;
 	}
+
 	.search {
 		display: flex;
 		line-height: 28px;
