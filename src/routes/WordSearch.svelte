@@ -1,11 +1,14 @@
 <script lang="ts">
     import WordVisemes from "./WordVisemes.svelte";
 	import WhisperRecord from "./WhisperRecord.svelte";
+	import AudioPlayer from "$lib/AudioPlayer.svelte";
+	import VisemeImage from "./VisemeImage.svelte";
 
 	let speech_enabled: boolean = false;
     let recognizer: any;
 	let recording: boolean = false;
 	let search_text: string = '';
+	let word_list: string[] = [];
 	let errors: string[] = [];
 	// let generated_words: string[] = [];
 
@@ -45,88 +48,16 @@
 
 	/**
      * Displays an error message for a certain duration.
-     * @param {string} error - The error message to display.
+     * @param {CustomEvent<string>} event - The error message to display.
      */
-	function show_error(error: string) {
+	function show_error(event: CustomEvent<string>) {
 		console.log("test");
-		errors.push(error);
+		errors.push(event.detail);
 		errors = errors;
 		setTimeout(() => {
 			errors.shift();
 			errors = errors;
 		}, 10000);
-	}
-
-	/**
-     * Generates information for words in the search text box.
-     */
-	async function generate_info() {
-		let card_div = document.getElementById('viseme_container');
-
-		if (search_text.length > 0 && card_div) {
-			let words_list = search_text.split(' ');
-
-			for (let i = 0; i < words_list.length; i++) {
-				// if (generated_words.includes(words_list[i]))
-				// {
-				// 	error_box.innerHTML += `Already generated results for ${words_list[i]}<br>`;
-				// 	continue;
-				// }
-				// generated_words.push(words_list[i]);
-
-				console.log('Generating info on "' + words_list[i] + '"');
-
-				// https://dictionaryapi.dev/
-				let api_url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + words_list[i];
-
-				// Make an API request
-				try {
-					const response = await fetch(api_url);
-					const data = await response.json();
-
-					// Check if the API request was successful
-					if (response.ok) {
-						// Process the data and update the UI
-						handle_api_response(words_list[i], data);
-					} else {
-						console.error(`Error: ${response.status} - ${data.message}`);
-						show_error(`No results for ${words_list[i]}, sorry!`);
-					}
-				} catch (error) {
-					console.error('Error fetching data:', error);
-					show_error(`Error fetching data for ${words_list[i]}, sorry!`);
-				}
-			}
-		}
-	}
-
-	/**
-     * Handles the API response for a word.
-     * @param {string} word - The word for which the API response is being handled.
-     * @param {any} data - The API response data.
-     */
-	function handle_api_response(word: string, data: any) {
-		// Extract relevant information from the API response
-		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
-		const phonemes = data[0]?.phonetic || data[0]?.phonetics[0]?.text || data[0]?.phonetics[1]?.text || 'No phonemes available';
-		const pronunciation = data[0]?.phonetics[0]?.audio || null;
-
-		let viseme_container = document.getElementById('viseme_container');
-
-		if (viseme_container)
-        {
-			viseme_container.innerHTML = '';
-			// Dynamically create WordVisemes component and add it to viseme_container
-			let VisemesContainer = new WordVisemes({
-				target: viseme_container,
-				props: {
-					word,
-					definition,
-					phonemes,
-					pronunciation
-				}
-			});
-		}
 	}
 
 	/**
@@ -136,7 +67,17 @@
 	function handle_keydown(event: KeyboardEvent)
 	{
 		if (event.key === 'Enter' || event.code === 'Enter') {
-			generate_info();
+			update_word_list();
+		}
+	}
+
+	function update_word_list() {
+		// Add in new words if they exist
+		if (search_text.length > 0) {
+			word_list = [...search_text.split(' '), ...word_list];
+			if (word_list.length > 10) {
+				word_list = word_list.slice(0, 10);
+			}
 		}
 	}
 
@@ -150,6 +91,7 @@
 		if (transcription)
 		{
 			search_text = transcription;
+			update_word_list();
 		}
 	}
 </script>
@@ -182,7 +124,11 @@
 			{/each}
 		</div>
 	{/if}
-	<div id="viseme_container"></div>
+	<div class="viseme_container">
+	{#each word_list as word}
+		<WordVisemes word={word} on:error={show_error} />
+	{/each}
+	</div>
 </div>
 
 <style>
@@ -264,9 +210,11 @@
 		scrollbar-color: rgb(255, 66, 66) rgb(255, 153, 153);
 	}
 
-	#viseme_container {
+	.viseme_container {
 		display: flex;
+		flex-direction: column;
 		flex-wrap: wrap;
 		justify-content: center;
+		width: 100%;
 	}
 </style>
