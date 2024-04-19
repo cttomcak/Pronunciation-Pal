@@ -1,6 +1,3 @@
-<!-- I'm well aware this is probably horrible code and a horrible way to do it, but if it works it works -->
-<!-- (It wasn't like this when it was in python lol) -->
-
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { aa } from '$lib/word_animation/aa';
@@ -47,19 +44,31 @@
 		U: U
 	};
 
+	const facemeshFeatures: [number, number][][] = [
+		FACEMESH_LIPS,
+		FACEMESH_LEFT_EYE,
+		FACEMESH_LEFT_IRIS,
+		FACEMESH_LEFT_EYEBROW,
+		FACEMESH_RIGHT_EYE,
+		FACEMESH_RIGHT_EYEBROW,
+		FACEMESH_RIGHT_IRIS,
+		FACEMESH_FACE_OVAL,
+		FACEMESH_NOSE
+	];
+
 	export let visemesProp: string[];
 	export let phonemesProp: string[];
+	let currentVisemeText = 'sil';
+	let currentPhonemeText = 'silence';
 
 	let trueVisemes: [number, number, number][][] = [];
 	let currentPosition: [number, number, number][] = [];
 	let increment: number = 0;
-	let numInterpolationFrames: number = 8;
+	let numInterpolationFrames: number = 16;
 	let currentInterpolation: number = 0;
-	let frameRate: number = 1 / 48;
-	
-	function main() {
-		console.log('Main is running');
+	let frameRate: number = 1 / 60;
 
+	function main() {
 		for (let i = 0; i < sil.length; i++) {
 			currentPosition.push([sil[i][0], sil[i][1], sil[i][2]]);
 		}
@@ -102,6 +111,16 @@
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawCurrentPossiton(canvas, ctx, currentPosition);
 
+		currentPhonemeText = phonemesProp[increment % phonemesProp.length];
+		currentVisemeText = visemesProp[increment % phonemesProp.length];
+
+		// Set font properties
+		ctx.font = '30px Arial'; // Font size and type
+		ctx.fillStyle = 'black'; // Text color
+
+		ctx.fillText('/' + currentPhonemeText + '/', 20, 425)
+		ctx.fillText(currentVisemeText, 20, 460)
+
 		currentInterpolation++;
 		if (currentInterpolation == numInterpolationFrames) {
 			currentInterpolation = 0;
@@ -112,7 +131,9 @@
 
 	function deepCopyViseme(current: [number, number, number][], next: [number, number, number][]) {
 		current.forEach((coordinate, index) => {
-			coordinate = [...next[index]];
+			coordinate[0] = next[index][0];
+			coordinate[1] = next[index][1];
+			coordinate[2] = next[index][2];
 		});
 	}
 
@@ -142,41 +163,11 @@
 		ctx.beginPath();
 		ctx.strokeStyle = 'black';
 		ctx.lineWidth = 1;
-		FACEMESH_LIPS.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_LEFT_EYE.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_LEFT_IRIS.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_LEFT_EYEBROW.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_RIGHT_EYE.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_RIGHT_EYEBROW.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_RIGHT_IRIS.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_FACE_OVAL.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
-		});
-		FACEMESH_NOSE.forEach((pair) => {
-			ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
-			ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
+		facemeshFeatures.forEach((featureList) => {
+			featureList.forEach((pair) => {
+				ctx.moveTo(coordinates[pair[0]][0] * canvas.width, coordinates[pair[0]][1] * canvas.height);
+				ctx.lineTo(coordinates[pair[1]][0] * canvas.width, coordinates[pair[1]][1] * canvas.height);
+			});
 		});
 		ctx.stroke();
 
@@ -256,6 +247,12 @@
 
 <div>
 	<canvas id="canvas" width="640" height="480"></canvas>
+	<div>
+		Current Phoneme = /{currentPhonemeText}/
+	</div>
+	<div>
+		Current Viseme = {currentVisemeText}
+	</div>
 </div>
 
 <style>

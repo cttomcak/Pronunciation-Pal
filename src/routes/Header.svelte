@@ -8,6 +8,7 @@
 		<label for="nav-check" class="nav-chlab">☰</label>
 		<div class="navbar-links">
 			<a href="/">Home</a>
+			<a href="/animation">Speech Animation</a>
 			<a href="/auth/login">Login</a>
 			<a href="/auth/register">Register</a>
 			<a href="/profile">Profile</a>
