@@ -33,7 +33,6 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "j" : "I",
     "w" : "U",
     "ɪ" : "I",
-    "ɨ" : "E",
     "e" : "E",
     "æ" : "aa",
     "a" : "aa",
