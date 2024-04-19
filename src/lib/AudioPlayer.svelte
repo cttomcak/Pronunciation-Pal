@@ -12,10 +12,11 @@
 
 <style>
 	button {
-		padding: 5px;
-		background-color: #4285f4;
+		margin: 5px;
+		padding: 10px;
+		background-color: #4942E4;
 		color: #ffffff;
-		border: 3px solid #0062ff;
+		border: 3px solid #11009E;
 		border-radius: 5px;
 		cursor: pointer;
 	}

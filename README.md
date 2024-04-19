@@ -14,6 +14,14 @@ We also added a couple other components, like a global layout in +layout.svelte 
 
 There are currently no other branches to review besides 'main'.
 
+## Milestone 3 Release Notes
+In this milestone, we added support with our back-end for OpenAI's Whisper speech-to-text model. This is for two reasons: 1. So that speech-to-text transcription is available on every browser, no matter what operating system you're on, and 2. Because it is one of the highest quality models, being more likely able to transcribe bad pronunciations. These are both necessary for our web application.
+
+The branch that needs to be looked at for this milestone is the 'add-whisper' branch, which is most up to date, not main. To see the limited back-end NodeJS code that makes calls to the Whisper API, go to this repository: https://github.com/cttomcak/questionable-whisper-backend. We can provide the API key if needed, as it is not stored in the repository.
+
+## Milestone 4 Release Notes
+Since milestone 3, we have implemented a few new features into Pronunciation Pal. We began implementing a new, gamified experience for users to interact with the application, with various visual features and score-tracking in order to make it more appealing. We also implemented an option to view speech-sound diagrams instead of images of a human face, and we added the relevant phoneme to the label on each card so that users can now see both the viseme and phoneme associated with the displayed image.
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:

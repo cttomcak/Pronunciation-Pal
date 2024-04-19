@@ -1,10 +1,14 @@
 <script lang="ts">
     import WordVisemes from "./WordVisemes.svelte";
+	import WhisperRecord from "./WhisperRecord.svelte";
+	import AudioPlayer from "$lib/AudioPlayer.svelte";
+	import VisemeImage from "./VisemeImage.svelte";
 
 	let speech_enabled: boolean = false;
     let recognizer: any;
 	let recording: boolean = false;
 	let search_text: string = '';
+	let word_list: string[] = [];
 	let errors: string[] = [];
 	// let generated_words: string[] = [];
 
@@ -24,23 +28,31 @@
 		}
 	}
 
-	// Runs when record button is pressed
+	/**
+     * Starts recording speech using the browser's speech recognition API.
+     */
 	function record_speech() {
 		recording = true;
 		// Don't need to check since the button won't exist if feature not supported
 		recognizer.start();
 	}
 
-	// Runs when the speech recognition API automatically returns results
-	function results_callback(result: any) {
+	/**
+     * Callback function for speech recognition results.
+     * @param {SpeechRecognitionEvent} result - The result object from speech recognition.
+     */
+	function results_callback(result: SpeechRecognitionEvent) {
 		recording = false;
 		search_text = result.results[0][0].transcript;
 	}
 
-	// Shows an error message for 10 seconds, then removes the error from the list
-	function show_error(error: string) {
+	/**
+     * Displays an error message for a certain duration.
+     * @param {CustomEvent<string>} event - The error message to display.
+     */
+	function show_error(event: CustomEvent<string>) {
 		console.log("test");
-		errors.push(error);
+		errors.push(event.detail);
 		errors = errors;
 		setTimeout(() => {
 			errors.shift();
@@ -48,98 +60,59 @@
 		}, 10000);
 	}
 
-	// A function to generate info on the words in the words text box
-	async function generate_info() {
-		let card_div = document.getElementById('viseme_container');
+	/**
+     * Handles keydown event for input textbox.
+     * @param {KeyboardEvent} event - The keydown event object.
+     */
+	function handle_keydown(event: KeyboardEvent)
+	{
+		if (event.key === 'Enter' || event.code === 'Enter') {
+			update_word_list();
+		}
+	}
 
-		if (search_text.length > 0 && card_div) {
-			let words_list = search_text.split(' ');
-
-			for (let i = 0; i < words_list.length; i++) {
-				// if (generated_words.includes(words_list[i]))
-				// {
-				// 	error_box.innerHTML += `Already generated results for ${words_list[i]}<br>`;
-				// 	continue;
-				// }
-				// generated_words.push(words_list[i]);
-
-				console.log('Generating info on "' + words_list[i] + '"');
-
-				// https://dictionaryapi.dev/
-				let api_url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + words_list[i];
-
-				// Make an API request
-				try {
-					const response = await fetch(api_url);
-					const data = await response.json();
-
-					// Check if the API request was successful
-					if (response.ok) {
-						// Process the data and update the UI
-						handle_api_response(words_list[i], data);
-					} else {
-						console.error(`Error: ${response.status} - ${data.message}`);
-						show_error(`No results for ${words_list[i]}, sorry!`);
-					}
-				} catch (error) {
-					console.error('Error fetching data:', error);
-					show_error(`Error fetching data for ${words_list[i]}, sorry!`);
-				}
+	function update_word_list() {
+		// Add in new words if they exist
+		if (search_text.length > 0) {
+			word_list = [...search_text.split(' '), ...word_list];
+			if (word_list.length > 10) {
+				word_list = word_list.slice(0, 10);
 			}
 		}
 	}
 
-	function handle_api_response(word: string, data: any) {
-		// Extract relevant information from the API response
-		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
-		const phonemes = data[0]?.phonetic || data[0]?.phonetics[0]?.text || data[0]?.phonetics[1]?.text || 'No phonemes available';
-		const pronunciation = data[0]?.phonetics[0]?.audio || null;
-
-		let viseme_container = document.getElementById('viseme_container');
-
-		if (viseme_container)
-        {
-			viseme_container.innerHTML = '';
-			// Dynamically create WordVisemes component and add it to viseme_container
-			let VisemesContainer = new WordVisemes({
-				target: viseme_container,
-				props: {
-					word,
-					definition,
-					phonemes,
-					pronunciation
-				}
-			});
-		}
-	}
-
-	// For input textbox, so a user can press 'Enter' to generate data.
-	function handle_keydown(event: any)
+	/**
+     * Handles event emitted by WhisperRecord component.
+     * @param {CustomEvent} event - The custom event object.
+     */
+	function handleWhisperEvent(event: CustomEvent)
 	{
-		if (event.key === 'Enter' || event.code === 'Enter') {
-			generate_info();
+		const transcription = event.detail.transcription;
+		if (transcription)
+		{
+			search_text = transcription;
+			update_word_list();
 		}
 	}
 </script>
 
 <div class="search-wrapper">
-	<div>
+	<div class="record-buttons">
+		<WhisperRecord on:set_parent_text={handleWhisperEvent}/>
 		<!-- Record button, hides itself if not supported -->
 		{#if speech_enabled}
 			<button id="recording_button" on:click={record_speech}>
-				<strong>
-					{#if recording}
-						Recording...
-					{:else}
-						Record
-					{/if}
-				</strong>
+				{#if recording}
+					Recording...
+				{:else}
+					Record (Browser)
+				{/if}
 			</button>
 		{/if}
 		<span style="display: inline-block;">
 			<div class="search">
 				<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
-				<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown} on:focusout={generate_info} />
+				<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown}/>
 			</div>
 		</span>
 	</div>
@@ -151,7 +124,11 @@
 			{/each}
 		</div>
 	{/if}
-	<div id="viseme_container"></div>
+	<div class="viseme_container">
+	{#each word_list as word}
+		<WordVisemes word={word} on:error={show_error} />
+	{/each}
+	</div>
 </div>
 
 <style>
@@ -161,16 +138,24 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.record-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	button {
 		margin: 5px;
 		padding: 10px;
-		background-color: #4285f4;
+		background-color: #4942E4;
 		color: #ffffff;
-		border: 3px solid #0062ff;
+		border: 3px solid #11009E;
 		border-radius: 5px;
 		cursor: pointer;
 	}
+
 	.search {
+		margin: 5px;
+		padding: 10px;
 		display: flex;
 		line-height: 28px;
 		align-items: center;
@@ -185,9 +170,8 @@
 		line-height: 28px;
 		padding: 0 1rem;
 		padding-left: 2.5rem;
-		border: 2px solid transparent;
+		border: 2px solid black;
 		border-radius: 50px;
-		outline: none;
 		background-color: #ffffff;
 		color: #0d0c22;
 		transition: .3s ease;
@@ -199,9 +183,9 @@
 
 	.input:focus, input:hover {
 		outline: none;
-		border-color: rgba(35, 35, 35, 0.4);
-		background-color: #fff;
-		box-shadow: 0 0 0 4px rgba(66, 66, 66, 0.1);
+		border-color: rgb(0, 0, 0);
+		background-color: #ffffff;
+		box-shadow: 0 0 0 2px rgb(0, 0, 0);
 	}
 
 	.icon {
@@ -226,9 +210,11 @@
 		scrollbar-color: rgb(255, 66, 66) rgb(255, 153, 153);
 	}
 
-	#viseme_container {
+	.viseme_container {
 		display: flex;
+		flex-direction: column;
 		flex-wrap: wrap;
 		justify-content: center;
+		width: 100%;
 	}
 </style>
