@@ -20,7 +20,7 @@ In this milestone, we added support with our back-end for OpenAI's Whisper speec
 The branch that needs to be looked at for this milestone is the 'add-whisper' branch, which is most up to date, not main. To see the limited back-end NodeJS code that makes calls to the Whisper API, go to this repository: https://github.com/cttomcak/questionable-whisper-backend. We can provide the API key if needed, as it is not stored in the repository.
 
 ## Milestone 4 Release Notes
-Since milestone 3, we have implemented a few new features into Pronunciation Pal. We began implementing a new, gamified experience for users to interact with the application, with various visual features and score-tracking in order to make it more appealing. We also implemented an option to view speech-sound diagrams instead of images of a human face, and we added the relevant phoneme to the label on each card so that users can now see both the viseme and phoneme associated with the displayed image.
+Since milestone 3, we have implemented a few new features into Pronunciation Pal. We began implementing a new, gamified experience for users to interact with the application, with various visual features and score-tracking in order to make it more appealing. We also implemented an option to view speech-sound diagrams instead of images of a human face, and we added the relevant phoneme to the label on each card so that users can now see both the viseme and phoneme associated with the displayed image. There's also another branch where Colin's honors extension code (initially in python) has been ported into the svelte project (branch name is colin-extension).
 
 ## Developing
 
