@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import AudioPlayer from './AudioPlayer.svelte';
+	import AudioPlayer from '$lib/AudioPlayer.svelte';
 
 	export let word = '';
 	export let definition = '';

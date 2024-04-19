@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="submit-container">
-			<button type="submit">Login</button>
+			<button type="submit">Sign Up</button>
 		</div>
 	</form>
 

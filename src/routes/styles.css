@@ -1,0 +1,17 @@
+:root {
+    font-family: Roboto, Helvetica, sans-serif;
+	font-size: large;
+}
+
+body {
+	margin: 0;
+}
+
+a {
+	color: #E6B9DE;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}

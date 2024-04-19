@@ -1,5 +1,5 @@
 {
-	"name": "asdf",
+	"name": "pronunciation-pal",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -34,6 +34,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@types/dom-speech-recognition": "^0.0.4",
 		"bcrypt": "^5.1.1",
 		"jsonwebtoken": "^9.0.2",
 		"sequelize": "^6.37.1",
