@@ -122,7 +122,7 @@
 		ctx.fillText(currentVisemeText, 20, 460)
 
 		currentInterpolation++;
-		if (currentInterpolation == numInterpolationFrames) {
+		if (currentInterpolation >= numInterpolationFrames) {
 			currentInterpolation = 0;
 			increment++;
 			deepCopyViseme(currentPosition, trueVisemes[increment % trueVisemes.length]);
@@ -246,6 +246,11 @@
 </script>
 
 <div>
+	<div class="slidecontainer">
+		Number of Interpolation Frames
+		<input type="range" min="1" max="64" class="slider" id="myRange" bind:value={numInterpolationFrames}>
+		{numInterpolationFrames}
+	</div>
 	<canvas id="canvas" width="640" height="480"></canvas>
 	<div>
 		Current Phoneme = /{currentPhonemeText}/
@@ -258,5 +263,18 @@
 <style>
 	canvas {
 		border: 1px solid black;
+	}
+
+	.slidecontainer {
+		margin: 5px;
+		padding: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.slider {
+		width: 50%;
+		margin-left: 10px;
 	}
 </style>
