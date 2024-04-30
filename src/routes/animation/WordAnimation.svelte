@@ -25,6 +25,7 @@
 	import { FACEMESH_RIGHT_IRIS } from '$lib/word_animation/facemesh_features';
 	import { FACEMESH_FACE_OVAL } from '$lib/word_animation/facemesh_features';
 	import { FACEMESH_NOSE } from '$lib/word_animation/facemesh_features';
+	import { phoneme_lengths_dict } from '$lib/word_animation/phoneme_length';
 
 	const visemeDictionary: { [id: string]: [number, number, number][] } = {
 		aa: aa,
@@ -61,6 +62,7 @@
 	let currentVisemeText = 'sil';
 	let currentPhonemeText = 'silence';
 
+	const averageLength = 70;
 	let trueVisemes: [number, number, number][][] = [];
 	let currentPosition: [number, number, number][] = [];
 	let increment: number = 0;
@@ -102,10 +104,20 @@
 		let currentViseme = trueVisemes[increment % trueVisemes.length];
 		let nextViseme = trueVisemes[(increment + 1) % trueVisemes.length];
 
+		let currentPhoneme = phonemesProp[increment % phonemesProp.length];
+		let nextPhoneme = phonemesProp[(increment + 1) % phonemesProp.length];
+		let relativeInterpolationFrames =
+			numInterpolationFrames *
+			((phoneme_lengths_dict[currentPhoneme] + phoneme_lengths_dict[nextPhoneme]) /
+				(averageLength * 2));
+
 		currentViseme.forEach((coordinate, index) => {
-			currentPosition[index][0] += (nextViseme[index][0] - coordinate[0]) / numInterpolationFrames;
-			currentPosition[index][1] += (nextViseme[index][1] - coordinate[1]) / numInterpolationFrames;
-			currentPosition[index][2] += (nextViseme[index][2] - coordinate[2]) / numInterpolationFrames;
+			currentPosition[index][0] +=
+				(nextViseme[index][0] - coordinate[0]) / relativeInterpolationFrames;
+			currentPosition[index][1] +=
+				(nextViseme[index][1] - coordinate[1]) / relativeInterpolationFrames;
+			currentPosition[index][2] +=
+				(nextViseme[index][2] - coordinate[2]) / relativeInterpolationFrames;
 		});
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -118,11 +130,11 @@
 		ctx.font = '30px Arial'; // Font size and type
 		ctx.fillStyle = 'black'; // Text color
 
-		ctx.fillText('/' + currentPhonemeText + '/', 20, 425)
-		ctx.fillText(currentVisemeText, 20, 460)
+		ctx.fillText('/' + currentPhonemeText + '/', 20, 425);
+		ctx.fillText(currentVisemeText, 20, 460);
 
 		currentInterpolation++;
-		if (currentInterpolation >= numInterpolationFrames) {
+		if (currentInterpolation >= relativeInterpolationFrames) {
 			currentInterpolation = 0;
 			increment++;
 			deepCopyViseme(currentPosition, trueVisemes[increment % trueVisemes.length]);
@@ -248,7 +260,14 @@
 <div>
 	<div class="slidecontainer">
 		Number of Interpolation Frames
-		<input type="range" min="1" max="64" class="slider" id="myRange" bind:value={numInterpolationFrames}>
+		<input
+			type="range"
+			min="1"
+			max="64"
+			class="slider"
+			id="myRange"
+			bind:value={numInterpolationFrames}
+		/>
 		{numInterpolationFrames}
 	</div>
 	<canvas id="canvas" width="640" height="480"></canvas>
