@@ -3,6 +3,7 @@
 	import { phoneme_to_viseme_dict } from '$lib/PhonemeVisemeDict';
 	import type { SvelteComponent } from 'svelte';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
+	import WhisperRecord from '../WhisperRecord.svelte';
 
 	let visemesList: string[] = [];
 	let phonemesList: string[] = [];
@@ -28,6 +29,15 @@
 			if (recognizer) {
 				recognizer.onresult = results_callback;
 				speech_enabled = true;
+				recognizer.onstart = function () {
+					recording = true;
+				};
+				recognizer.onend = function (event) {
+					recording = false;
+				};
+				recognizer.onerror = function (event) {
+					recording = false;
+				};
 			}
 		} else {
 			console.error('SpeechRecognition API not supported on this browser');
@@ -38,7 +48,6 @@
 	 * Starts recording speech using the browser's speech recognition API.
 	 */
 	function record_speech() {
-		recording = true;
 		// Don't need to check since the button won't exist if feature not supported
 		recognizer.start();
 	}
@@ -48,7 +57,6 @@
 	 * @param {SpeechRecognitionEvent} result - The result object from speech recognition.
 	 */
 	function results_callback(result: SpeechRecognitionEvent) {
-		recording = false;
 		search_text = result.results[0][0].transcript;
 	}
 
@@ -176,6 +184,17 @@
 			generate_info();
 		}
 	}
+
+	/**
+	 * Handles event emitted by WhisperRecord component.
+	 * @param {CustomEvent} event - The custom event object.
+	 */
+	function handleWhisperEvent(event: CustomEvent) {
+		const transcription = event.detail.transcription;
+		if (transcription) {
+			search_text = transcription;
+		}
+	}
 </script>
 
 <div class="search-wrapper">
@@ -190,6 +209,7 @@
 				{/if}
 			</button>
 		{/if}
+		<WhisperRecord on:set_parent_text={handleWhisperEvent} />
 	</div>
 	<span style="display: inline-block;">
 		<div class="search">
@@ -215,16 +235,18 @@
 			<div class="flex-column-center background-white">
 				<div class="info-box">
 					<div class="definition-box">
-						<p><strong>{currentWord.toUpperCase()}</strong></p>
+						<div><p><strong>{currentWord.toUpperCase()}</strong></p></div>
 						{#if phonemes}
 							<p class="phonemes">{phonemes}</p>
 						{/if}
 					</div>
+				</div>
+				<div>
 					{#if definition}
-						<p>{definition}</p>
+						<div><p>{definition}</p></div>
 					{/if}
 					{#if pronunciation}
-						<p><AudioPlayer audioUrl={pronunciation} /></p>
+						<div><p><AudioPlayer audioUrl={pronunciation} /></p></div>
 					{/if}
 				</div>
 			</div>
@@ -242,8 +264,8 @@
 	}
 	.record-buttons {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	}
 	button {
 		margin: 5px;
@@ -295,11 +317,15 @@
 	}
 	.general_info {
 		margin-top: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.flex-column-center {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	}
 	.definition-box {
 		display: flex;
@@ -314,5 +340,10 @@
 	.definition-box strong {
 		font-size: xx-large;
 		margin-right: 1rem;
+	}
+	.info-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
