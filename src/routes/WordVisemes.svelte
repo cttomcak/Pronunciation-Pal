@@ -18,9 +18,9 @@
 	onDestroy(unsubscribe);
 
 	export let word: string = '';
-	export let definition: string = '';
-	export let phonemes: string = '';
-	export let pronunciation: string = '';
+	let definition: string = '';
+	let phonemes: string = '';
+	let pronunciation: string = '';
 
 	const dispatch = createEventDispatcher();
 
@@ -88,6 +88,9 @@
 		visemes = visemes;
 	}
 	$: if (word) {
+		definition = '';
+		phonemes = '';
+		pronunciation = '';
 		generate_info();
 	}
 
@@ -114,7 +117,9 @@
 			{#if showFavoriteButton}
 				<AddFavoriteButton word={word} />
 			{/if}
-			<button id="toggle_button" on:click={toggleImages}>Toggle Images</button>
+			{#if phonemes}
+				<button id="toggle_button" on:click={toggleImages}>Toggle Images</button>
+			{/if}
 		</div>
 		<!-- Where the viseme pictures go -->
 		<div id="pictures_go_here">
