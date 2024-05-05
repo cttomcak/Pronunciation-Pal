@@ -1,4 +1,3 @@
-<!-- +page.svelte -->
 <script lang="ts">
 
 	export let data;
@@ -14,7 +13,6 @@
         });
 
         if (response.ok) {
-            // Optionally update UI or show success message
             console.log('Favorite word added successfully');
         } else {
             console.error('Failed to add favorite word');
@@ -35,7 +33,6 @@
         });
 
         if (response.ok) {
-            // Optionally update UI or show success message
             console.log('Favorite word deleted successfully');
         } else {
             console.error('Failed to delete favorite word');

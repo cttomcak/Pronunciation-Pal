@@ -1,7 +1,8 @@
-// +api/add-favorite-word.ts
 import type { RequestHandler } from '@sveltejs/kit';
 import { User } from '$lib/server/models/User';
 
+// For some reason the bodies of these requests aren't json, they're ReadableStreams.
+// The requests made in the front end were completely normal, so I personally have no clue what this is.
 export const POST: RequestHandler = async (request) => {
 	// Read the request body from the ReadableStream
 	const body = JSON.parse(await readRequestBody(request.request));
