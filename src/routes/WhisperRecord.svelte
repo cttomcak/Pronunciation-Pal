@@ -6,6 +6,7 @@
     let chunks: BlobPart[] = [];
     let transcription = '';
     let recording = false;
+	let fileInput: HTMLInputElement | null;
 
 	/**
      * Starts recording audio from the user's microphone.
@@ -68,10 +69,10 @@
      * @param {Event} event - The form submission event.
      * @returns {Promise<void>}
      */
-	async function submitForm(event: Event) {
+	async function submitForm(event: any) {
 		event.preventDefault();
 
-		const formData = new FormData(event.target as HTMLFormElement);
+		const formData = new FormData(event.target.form as HTMLFormElement);
 
 		try {
 			const response = await fetch('http://localhost:3000/transcribe', {
@@ -98,17 +99,16 @@
      * Sends an event to the parent component to set the search bar text.
      */
 	function set_parent_text() {
-        transcription = transcription.replaceAll('.', '');
-		transcription = transcription.replaceAll(',', '');
+        transcription = transcription.replaceAll(/[\.,]/g, '');
 		dispatch('set_parent_text', {transcription});
 	}
 </script>
 
 <div class="record-buttons">
-	<form on:submit={submitForm} enctype="multipart/form-data">
-		<input type="file" name="file" accept="audio/*" required />
-		<button type="submit">Transcribe File</button>
+	<form enctype="multipart/form-data">
+		<input bind:this={fileInput} on:change={submitForm} type="file" name="file" accept="audio/*" style="display: none;" />
 	</form>
+	<button on:click={() => fileInput && fileInput.click()}>Transcribe File</button>
 	{#if !recording}
 	<button on:click={startRecording}>Record (Whisper AI)</button>
 	{:else}
@@ -119,7 +119,7 @@
 <style>
 	.record-buttons {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		align-items: center;
 	}
 	button {
