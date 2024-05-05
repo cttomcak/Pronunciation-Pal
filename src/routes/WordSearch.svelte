@@ -3,6 +3,19 @@
 	import WhisperRecord from "./WhisperRecord.svelte";
 	import AudioPlayer from "$lib/AudioPlayer.svelte";
 	import VisemeImage from "./VisemeImage.svelte";
+	import { userData } from './userData';
+	import { onDestroy } from "svelte";
+	
+    let userFavorites: string[] = [];
+
+    const unsubscribe = userData.subscribe(value => {
+		if (value)
+		{
+			userFavorites = JSON.parse((value as any).favorite_words || '[]')
+		}
+    });
+
+	onDestroy(unsubscribe);
 
 	let speech_enabled: boolean = false;
     let recognizer: any;
@@ -10,6 +23,7 @@
 	let search_text: string = '';
 	let word_list: string[] = [];
 	let errors: string[] = [];
+	let showFavorites: boolean = true;
 	// let generated_words: string[] = [];
 
 	// Check if window is defined (running on the client side)
@@ -94,6 +108,11 @@
 			update_word_list();
 		}
 	}
+
+	function handleFavButtonPress(event: Event) {
+		search_text = (event.target as HTMLButtonElement).id;
+		update_word_list();
+	}
 </script>
 
 <div class="search-wrapper">
@@ -115,6 +134,17 @@
 				<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown}/>
 			</div>
 		</span>
+	</div>
+	<div class='favorites_box'>
+		{#if userFavorites.length > 0}
+			<label for="show_favorites">Show Favorites</label>
+			<input name="show_favorites" type="checkbox" bind:checked={showFavorites}>
+			{#if showFavorites}
+				{#each userFavorites as favWord}
+					<button on:click={handleFavButtonPress} id={favWord}>{favWord}</button>
+				{/each}
+			{/if}
+		{/if}
 	</div>
 	{#if errors.length > 0}
 		<div id="display_errors_here">

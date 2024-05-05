@@ -1,8 +1,21 @@
 <script lang="ts">
 	import VisemeImage from './VisemeImage.svelte';
 	import { phoneme_to_viseme_dict } from '../lib/PhonemeVisemeDict';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onDestroy } from 'svelte';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
+	import AddFavoriteButton from './AddFavoriteButton.svelte';
+	import { userData } from './userData';
+	
+    let showFavoriteButton = false;
+
+    const unsubscribe = userData.subscribe(value => {
+		if (value)
+		{
+			showFavoriteButton = true;
+		}
+    });
+
+	onDestroy(unsubscribe);
 
 	export let word: string = '';
 	export let definition: string = '';
@@ -97,6 +110,9 @@
 				<p><AudioPlayer audioUrl={pronunciation} /></p>
 			{:else}
 				<p><strong>No pronunciation available</strong></p>
+			{/if}
+			{#if showFavoriteButton}
+				<AddFavoriteButton word={word} />
 			{/if}
 			<button id="toggle_button" on:click={toggleImages}>Toggle Images</button>
 		</div>
