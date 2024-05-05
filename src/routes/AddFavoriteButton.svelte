@@ -3,18 +3,28 @@
     import { userData } from './userData';
 
     export let word: string;
-    let word_safe = word
 
     let favoriteAdded = false;
+    let favoriteWords: string | string[] = [];
 
     const unsubscribe = userData.subscribe(value => {
-        console.log("word at this time:", word_safe, word);
-        if (JSON.parse((value as any).favorite_words || '[]').includes(word_safe)) {
-            favoriteAdded = true;
-        }
+        favoriteWords = JSON.parse((value as any).favorite_words || '[]');
     });
 
 	onDestroy(unsubscribe);
+
+    $: if (word) {
+		checkIfInFavs();
+	}
+
+    function checkIfInFavs() {
+        if (favoriteWords.includes(word)) {
+            favoriteAdded = true;
+        }
+        else {
+            favoriteAdded = false;
+        }
+    }
 
     async function addFavoriteWord() {
         const response = await fetch('/api/add-favorite-word', {
@@ -22,7 +32,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ word: word_safe })
+            body: JSON.stringify({ word: word })
         });
 
         if (response.ok) {
@@ -37,9 +47,8 @@
     {#if favoriteAdded}
         <button disabled>Favorited ✔</button>
     {:else}
-        <button on:click={addFavoriteWord}>Favorite "{word_safe}"</button>
+        <button on:click={addFavoriteWord}>Favorite "{word}"</button>
     {/if}
-    word during processing = {word_safe}
 </div>
 
 <style>
