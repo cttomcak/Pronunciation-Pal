@@ -1,5 +1,9 @@
 <script>
 	import WordSearch from "./WordSearch.svelte";
+	import { userData } from "./userData";
+
+	export let data;
+	userData.set(data.user);
 </script>
 
 <svelte:head>

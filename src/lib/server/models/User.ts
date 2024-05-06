@@ -22,6 +22,9 @@ export const User = DBClient.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    favorite_words: {
+        type: DataTypes.JSON
     }
 });
 
