@@ -5,6 +5,7 @@
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
 
 	export let word: string = '';
+	export let index: number = 0;
 	export let definition: string = '';
 	export let phonemes: string = '';
 	export let pronunciation: string = '';
@@ -82,12 +83,19 @@
 		showViseme = !showViseme;
 	}
 
+	function removeWord() {
+		dispatch('remove', index);
+	}
+
 </script>
 
 <div class="general_info">
 	<div class="flex-column-center background-white">
 		<!-- Display some other info about the word -->
 		<div class="info-box">
+			<button class="close-button" aria-label="Close" on:click={removeWord}>
+				<span aria-hidden="true">×</span>
+			</button>
 			<div class="definition-box">
 				<p><strong>{word.toUpperCase()}</strong></p>
 				<p class="phonemes">{phonemes}</p>
@@ -117,6 +125,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		position: relative;
 	}
 	.definition-box {
 		display: flex;
@@ -148,5 +157,21 @@
 		border: 3px solid #11009E;
 		border-radius: 5px;
 		cursor: pointer;
+	}
+
+	.close-button {
+		position: absolute;
+		right: 10px;
+		background-color: white;
+		padding: 2px;
+		margin: 0;
+		border: none;
+		font-size: 3rem;
+		color: rgba(172, 172, 172, 0.5);
+		transition: cubic-bezier(1, 0, 0, 1) 0.3s;
+	}
+
+	.close-button:hover {
+		color: black;
 	}
 </style>

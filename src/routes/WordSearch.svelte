@@ -61,6 +61,15 @@
 	}
 
 	/**
+	 * Removes a word from the word list.
+	 * @param {CustomEvent<number>} event - The index of the word to remove.
+	 */
+	function remove_word(event: CustomEvent<number>) {
+		word_list.splice(event.detail, 1);
+		word_list = word_list;
+	}
+
+	/**
      * Handles keydown event for input textbox.
      * @param {KeyboardEvent} event - The keydown event object.
      */
@@ -125,8 +134,8 @@
 		</div>
 	{/if}
 	<div class="viseme_container">
-	{#each word_list as word}
-		<WordVisemes word={word} on:error={show_error} />
+	{#each word_list as word, index}
+		<WordVisemes word={word} index={index} on:error={show_error} on:remove={remove_word}/>
 	{/each}
 	</div>
 </div>
