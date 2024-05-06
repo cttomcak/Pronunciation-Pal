@@ -14,7 +14,7 @@
         <a href="/games/speed">
             <button>
                 <img src="/sprites/racing.png" alt="castle" style="width: 100px; height: auto;">
-                Speed
+                Speed (coming soon!)
             </button>
         </a>
         <a href="/games/accuracy">
@@ -26,7 +26,7 @@
         <a href="/games/range">
             <button>
                 <img src="/sprites/castle.png" alt="castle" style="width: 100px; height: auto;">
-                Word Range
+                Word Range (coming soon!)
             </button>
         </a>
     </div>

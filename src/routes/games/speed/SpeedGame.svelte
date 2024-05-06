@@ -60,6 +60,10 @@ interface TickEvent extends Event {
 	};
 }
 
+document.addEventListener("DOMContentLoaded", (event) => {
+  console.log("DOM fully loaded and parsed");
+});
+
 let ctx: CanvasRenderingContext2D
 let renderer: Renderer
 
