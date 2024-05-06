@@ -113,8 +113,8 @@
 		<!-- Display some other info about the word -->
 		<div class="info-box">
 			<div class="definition-box">
-				<p><strong>{word.toUpperCase()}</strong></p>
-				<p class="phonemes">{phonemes}</p>
+				<strong>{word.toUpperCase()}</strong>
+				{phonemes}
 			</div>
 			<p>{definition}</p>
 			<div class="buttons-div">
@@ -153,12 +153,9 @@
 	.definition-box {
 		display: flex;
 		flex-direction: row;
-	}
-	.definition-box p {
-		margin: 1rem 0 0 0;
-	}
-	.phonemes {
-		margin-top: 1.8rem !important;
+		justify-content: center;
+		align-items: center;
+		margin-top: 1.5rem;
 	}
 	.definition-box strong {
 		font-size: xx-large;

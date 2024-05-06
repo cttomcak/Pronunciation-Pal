@@ -278,6 +278,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
+		min-width: 12rem;
 		max-width: 40%;
 		padding: 5px;
 		margin: 5px;

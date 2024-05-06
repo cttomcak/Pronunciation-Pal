@@ -4,6 +4,22 @@
 	import type { SvelteComponent } from 'svelte';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
 	import WhisperRecord from '../WhisperRecord.svelte';
+	import { userData } from './userData';
+	import { onDestroy } from 'svelte';
+	import AddFavoriteButton from './AddFavoriteButton.svelte';
+
+	let userFavorites: string[] = [];
+	let showFavorites: boolean = true;
+	let showFavoriteButton = false;
+
+	const unsubscribe = userData.subscribe((value) => {
+		if (value) {
+			showFavoriteButton = true;
+			userFavorites = JSON.parse((value as any).favorite_words || '[]');
+		}
+	});
+
+	onDestroy(unsubscribe);
 
 	let visemesList: string[] = [];
 	let phonemesList: string[] = [];
@@ -195,6 +211,11 @@
 			search_text = transcription;
 		}
 	}
+
+	function handleFavButtonPress(event: Event) {
+		search_text = (event.target as HTMLButtonElement).id;
+		generate_info();
+	}
 </script>
 
 <div class="search-wrapper">
@@ -230,23 +251,46 @@
 			/>
 		</div>
 	</span>
+	<div class="favorites_section">
+		{#if userFavorites.length > 0}
+			<div>
+				<label for="show_favorites">Show Favorites</label>
+				<input name="show_favorites" type="checkbox" bind:checked={showFavorites} />
+			</div>
+			<div class="favorites_box">
+				{#if showFavorites}
+					{#each userFavorites as favWord}
+						<button class="fav-button" on:click={handleFavButtonPress} id={favWord}
+							>{favWord.charAt(0).toUpperCase() + favWord.slice(1)}</button
+						>
+					{/each}
+				{/if}
+			</div>
+		{/if}
+	</div>
 	{#if currentWord}
 		<div class="general_info">
 			<div class="flex-column-center background-white">
+				<!-- Display some other info about the word -->
 				<div class="info-box">
 					<div class="definition-box">
-						<div><p><strong>{currentWord.toUpperCase()}</strong></p></div>
+						<strong>{currentWord.toUpperCase()}</strong>
 						{#if phonemes}
-							<p class="phonemes">{phonemes}</p>
+							{phonemes}
 						{/if}
 					</div>
 				</div>
-				<div>
-					{#if definition}
-						<div><p>{definition}</p></div>
-					{/if}
+				{#if definition}
+					<p>{definition}</p>
+				{/if}
+				<div class="buttons-div">
 					{#if pronunciation}
-						<div><p><AudioPlayer audioUrl={pronunciation} /></p></div>
+						<AudioPlayer audioUrl={pronunciation} />
+					{:else}
+						<p style="padding-right: 6px;"><strong>No Audio Available</strong></p>
+					{/if}
+					{#if showFavoriteButton}
+						<AddFavoriteButton word={currentWord} />
 					{/if}
 				</div>
 			</div>
@@ -330,12 +374,8 @@
 	.definition-box {
 		display: flex;
 		flex-direction: row;
-	}
-	.definition-box p {
-		margin: 1rem 0 0 0;
-	}
-	.phonemes {
-		margin-top: 1.8rem !important;
+		justify-content: center;
+		align-items: center;
 	}
 	.definition-box strong {
 		font-size: xx-large;
@@ -345,5 +385,41 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.favorites_section {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.favorites_box {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		min-width: 12rem;
+		max-width: 40%;
+		padding: 5px;
+		margin: 5px;
+	}
+	.fav-button {
+		margin: 2px;
+		padding: 5px;
+		background-color: #4942e4;
+		color: #ffffff;
+		border: 3px solid #11009e;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+	.buttons-div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.info-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 	}
 </style>
