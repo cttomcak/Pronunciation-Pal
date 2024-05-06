@@ -27,14 +27,14 @@
 				formData.append('file', audioBlob);
 
 				try {
-					const response = await fetch('http://localhost:3000/transcribe', {
+					const response = await fetch('/api/transcribe', {
 						method: 'POST',
 						body: formData
 					});
 
 					if (response.ok) {
 						const data = await response.json();
-						transcription = data.transcription;
+						transcription = data.text;
                         set_parent_text();
 					} else {
 						alert('Error: ' + response.statusText);
@@ -75,14 +75,14 @@
 		const formData = new FormData(event.target.form as HTMLFormElement);
 
 		try {
-			const response = await fetch('http://localhost:3000/transcribe', {
+			const response = await fetch('/api/transcribe', {
 				method: 'POST',
 				body: formData
 			});
 
 			if (response.ok) {
 				const data = await response.json();
-				transcription = data.transcription;
+				transcription = data.text;
                 set_parent_text();
 			} else {
 				alert('Error: ' + response.statusText);
