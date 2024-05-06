@@ -32,10 +32,10 @@
 				recognizer.onstart = function () {
 					recording = true;
 				};
-				recognizer.onend = function (event) {
+				recognizer.onend = function () {
 					recording = false;
 				};
-				recognizer.onerror = function (event) {
+				recognizer.onerror = function () {
 					recording = false;
 				};
 			}
@@ -199,6 +199,7 @@
 
 <div class="search-wrapper">
 	<div class="record-buttons">
+		<WhisperRecord on:set_parent_text={handleWhisperEvent} />
 		<!-- Record button, hides itself if not supported -->
 		{#if speech_enabled}
 			<button id="recording_button" on:click={record_speech}>
@@ -209,7 +210,6 @@
 				{/if}
 			</button>
 		{/if}
-		<WhisperRecord on:set_parent_text={handleWhisperEvent} />
 	</div>
 	<span style="display: inline-block;">
 		<div class="search">

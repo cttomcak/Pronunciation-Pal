@@ -47,7 +47,7 @@
     {#if favoriteAdded}
         <button disabled>Favorited ✔</button>
     {:else}
-        <button on:click={addFavoriteWord}>Favorite "{word}"</button>
+        <button on:click={addFavoriteWord}>Favorite "{word.charAt(0).toUpperCase() + word.slice(1)}"</button> <!--❤️-->
     {/if}
 </div>
 

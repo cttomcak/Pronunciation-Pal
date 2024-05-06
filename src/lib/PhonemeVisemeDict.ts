@@ -44,6 +44,8 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "ɛ" : "E",
     "ɔ" : "O",
     "ɑ" : "aa",
+    "ɐ" : "O",
+    "oː" : "O",
     "ɑː" : "aa",
     "ʉː" : "U",
     "i" : "I",

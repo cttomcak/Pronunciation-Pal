@@ -107,20 +107,21 @@
 
 <div class="general_info">
 	<div class="flex-column-center background-white">
+		<button class="close-button" aria-label="Close" on:click={removeWord}>
+			<span aria-hidden="true">×</span>
+		</button>
 		<!-- Display some other info about the word -->
 		<div class="info-box">
-			<button class="close-button" aria-label="Close" on:click={removeWord}>
-				<span aria-hidden="true">×</span>
-			</button>
 			<div class="definition-box">
 				<p><strong>{word.toUpperCase()}</strong></p>
 				<p class="phonemes">{phonemes}</p>
 			</div>
 			<p>{definition}</p>
+			<div class="buttons-div">
 			{#if pronunciation}
-				<p><AudioPlayer audioUrl={pronunciation} /></p>
+				<AudioPlayer audioUrl={pronunciation} />
 			{:else}
-				<p><strong>No pronunciation available</strong></p>
+				<p style="padding-right: 6px;"><strong>No Audio Available</strong></p>
 			{/if}
 			{#if showFavoriteButton}
 				<AddFavoriteButton word={word} />
@@ -128,6 +129,7 @@
 			{#if phonemes}
 				<button id="toggle_button" on:click={toggleImages}>Toggle Images</button>
 			{/if}
+			</div>
 		</div>
 		<!-- Where the viseme pictures go -->
 		<div id="pictures_go_here">
@@ -194,5 +196,16 @@
 
 	.close-button:hover {
 		color: black;
+	}
+	.buttons-div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.info-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 	}
 </style>

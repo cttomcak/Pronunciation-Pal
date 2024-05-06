@@ -36,6 +36,15 @@
 			if (recognizer) {
 				recognizer.onresult = results_callback;
 				speech_enabled = true;
+				recognizer.onstart = function () {
+					recording = true;
+				};
+				recognizer.onend = function () {
+					recording = false;
+				};
+				recognizer.onerror = function () {
+					recording = false;
+				};
 			}
 		} else {
 			console.error('SpeechRecognition API not supported on this browser');
@@ -46,7 +55,6 @@
      * Starts recording speech using the browser's speech recognition API.
      */
 	function record_speech() {
-		recording = true;
 		// Don't need to check since the button won't exist if feature not supported
 		recognizer.start();
 	}
@@ -56,7 +64,6 @@
      * @param {SpeechRecognitionEvent} result - The result object from speech recognition.
      */
 	function results_callback(result: SpeechRecognitionEvent) {
-		recording = false;
 		search_text = result.results[0][0].transcript;
 	}
 
@@ -71,7 +78,7 @@
 		setTimeout(() => {
 			errors.shift();
 			errors = errors;
-		}, 10000);
+		}, 5000);
 	}
 
 	/**
@@ -137,29 +144,33 @@
 				{/if}
 			</button>
 		{/if}
-		<span style="display: inline-block;">
-			<div class="search">
-				<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
-				<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown}/>
-			</div>
-		</span>
 	</div>
-	<div class='favorites_box'>
+	<span style="display: inline-block;">
+		<div class="search">
+			<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+			<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown}/>
+		</div>
+	</span>
+	<div class="favorites_section">
 		{#if userFavorites.length > 0}
-			<label for="show_favorites">Show Favorites</label>
-			<input name="show_favorites" type="checkbox" bind:checked={showFavorites}>
-			{#if showFavorites}
-				{#each userFavorites as favWord}
-					<button on:click={handleFavButtonPress} id={favWord}>{favWord}</button>
-				{/each}
-			{/if}
+			<div>
+				<label for="show_favorites">Show Favorites</label>
+				<input name="show_favorites" type="checkbox" bind:checked={showFavorites}>
+			</div>
+			<div class='favorites_box'>
+				{#if showFavorites}
+					{#each userFavorites as favWord}
+						<button class="fav-button" on:click={handleFavButtonPress} id={favWord}>{favWord.charAt(0).toUpperCase() + favWord.slice(1)}</button>
+					{/each}
+				{/if}
+			</div>
 		{/if}
 	</div>
 	{#if errors.length > 0}
 		<div id="display_errors_here">
 			<strong>Errors:</strong>
 			{#each errors as error}
-				<p>{error}</p>
+				<p style="padding:0%; margin:0%;">{error}</p>
 			{/each}
 		</div>
 	{/if}
@@ -179,8 +190,8 @@
 	}
 	.record-buttons {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	}
 	button {
 		margin: 5px;
@@ -255,5 +266,29 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		width: 100%;
+	}
+	.favorites_section {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.favorites_box {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		max-width: 40%;
+		padding: 5px;
+		margin: 5px;
+	}
+	.fav-button {
+		margin: 2px;
+		padding: 5px;
+		background-color: #4942E4;
+		color: #ffffff;
+		border: 3px solid #11009E;
+		border-radius: 4px;
+		cursor: pointer;
 	}
 </style>

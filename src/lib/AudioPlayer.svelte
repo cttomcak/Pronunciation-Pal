@@ -8,7 +8,7 @@
 	}
 </script>
 
-<button on:click={() => playAudio()}>Official Pronunciation</button>
+<button on:click={() => playAudio()}>Audio 🔊</button>
 
 <style>
 	button {

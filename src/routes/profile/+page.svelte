@@ -40,17 +40,28 @@
 		
 		window.location.reload();
 	}
+
+    /**
+     * Handles keydown event for input textbox.
+     * @param {KeyboardEvent} event - The keydown event object.
+     */
+	function handle_keydown(event: KeyboardEvent)
+	{
+		if (event.key === 'Enter' || event.code === 'Enter') {
+			addFavoriteWord();
+		}
+	}
 </script>
 
 <section>
-    <h1>Locked page, only accessible when logged in</h1>
+    <h1>Profile Page</h1>
     <h2>Hello, {data.user.first_name}</h2>
-    <input type="text" bind:value={newWord} />
+    <input type="text" bind:value={newWord} on:keydown={handle_keydown}/>
     <button on:click={addFavoriteWord}>Add Favorite Word</button>
     <h3>Favorite Words:</h3>
     <ul>
         {#each JSON.parse(data.user.favorite_words || '[]') as word}
-            <li>{word} <button id={word} on:click={deleteFavoriteWord}>Remove</button></li>
+            <li>{word.charAt(0).toUpperCase() + word.slice(1)} <button id={word} on:click={deleteFavoriteWord}>Remove</button></li>
         {/each}
     </ul>
     <form action="/auth?/logout" method="POST">
