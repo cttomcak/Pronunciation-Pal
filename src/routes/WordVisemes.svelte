@@ -27,7 +27,7 @@
 
 	let processed;
 	let showViseme = true;
-	let visemes: string[] = [];
+	let visemes: string[][] = [];
 	let phonemesList: string[] = [];
 
 	/**
@@ -69,14 +69,14 @@
 				if (i != processed.length - 1 && phoneme_to_viseme_dict[processed.substring(i, i + 2)]) {
 					viseme = phoneme_to_viseme_dict[processed.substring(i, i + 2)];
 					phonemesList.push(processed.substring(i, i + 2));
-					visemes.push(viseme);
+					visemes.push(viseme.split(','));
 					i += 1;
 				}
 				// Case if the next phoneme is 1 character
 				else if (phoneme_to_viseme_dict[processed.substring(i, i + 1)]) {
 					viseme = phoneme_to_viseme_dict[processed.substring(i, i + 1)];
 					phonemesList.push(processed.substring(i, i + 1));
-					visemes.push(viseme);
+					visemes.push(viseme.split(','));
 				}
 				// We can't find the phoneme. Give error.
 				else {
