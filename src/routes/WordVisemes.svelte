@@ -1,6 +1,7 @@
 <script lang="ts">
 	import VisemeImage from './VisemeImage.svelte';
 	import { phoneme_to_viseme_dict } from '../lib/PhonemeVisemeDict';
+<<<<<<< HEAD
 	import { createEventDispatcher, onDestroy } from 'svelte';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
 	import AddFavoriteButton from './AddFavoriteButton.svelte';
@@ -8,6 +9,11 @@
 	
 	/** Whether to show favorite button */
     let showFavoriteButton = false;
+=======
+	import { createEventDispatcher, onMount } from 'svelte';
+	import AudioPlayer from '$lib/AudioPlayer.svelte';
+	import PhonemeRecord from './PhonemeRecord.svelte';
+>>>>>>> 5f641c8 (Add PhonemeRecord component and update WordVisemes)
 
 	/** Function to unsub from the userData store */
     const unsubscribe = userData.subscribe(value => {
@@ -42,6 +48,13 @@
 	let phonemesList: string[] = [];
 	/** Whether to show images or not (save space on page) */
 	let showImages = true;
+	let phonemeAnalysis: string = '';
+	let phonemeAnalysisAvailable: boolean = false;
+
+	onMount(async () => {
+        const health = await fetch('http://localhost:5000/api/health');
+		phonemeAnalysisAvailable = health.status == 200;
+	});
 
 	/**
      * Generates information for this word
@@ -117,6 +130,9 @@
 	function removeWord() {
 		dispatch('remove', index);
 	}
+	function updatePhonemes(event: CustomEvent) {
+		phonemeAnalysis = event.detail.phonemes;
+	}
 
 </script>
 
@@ -141,6 +157,9 @@
 			{#if showFavoriteButton}
 				<AddFavoriteButton word={word} />
 			{/if}
+			{#if phonemeAnalysisAvailable}
+				<PhonemeRecord on:newPhonemes={updatePhonemes}/>
+			{/if}
 			{#if phonemes}
 				<button id="toggle_button" on:click={toggleImages}>Toggle Diagrams</button>
 			{/if}
@@ -149,6 +168,7 @@
 			<input name="show_images" type="checkbox" bind:checked={showImages}>
 			</div>
 			</div>
+			<p>{phonemeAnalysis}</p>
 		</div>
 		<!-- Where the viseme pictures go -->
 		{#if showImages}
@@ -162,6 +182,11 @@
 </div>
 
 <style>
+	.button-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
 	.general_info {
 		margin-top: 1rem;
 		width: 100%;
