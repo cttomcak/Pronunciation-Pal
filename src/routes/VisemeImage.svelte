@@ -59,11 +59,11 @@
 		padding: 10px;
 	}
 	.length1 {
-		width: 20%;
+		width: 15%;
 		min-width: 200px;
 	}
 	.length2 {
-		width: 40%;
+		width: 30%;
 		min-width: 400px;
 		text-align: center;
 	}

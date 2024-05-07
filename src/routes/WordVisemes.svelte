@@ -149,7 +149,7 @@
 
 <style>
 	.general_info {
-		margin-top: 2rem;
+		margin-top: 1rem;
 		width: 100%;
 	}
 	.flex-column-center {
@@ -163,7 +163,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		margin-top: 1.5rem;
+		margin-top: 1.2rem;
 	}
 	.definition-box strong {
 		font-size: xx-large;
@@ -177,6 +177,7 @@
 		flex-wrap: wrap; /* Wrap images to new row if necessary */
 		justify-content: center; /* Center images horizontally */
 		width: 100%;
+		margin-bottom: 0.5rem;
 	}
 	button {
 		margin: 5px;
@@ -207,6 +208,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		margin-bottom: 1rem;
 	}
 	.info-box {
 		display: flex;
