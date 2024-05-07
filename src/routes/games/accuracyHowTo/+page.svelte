@@ -1,5 +1,5 @@
 <script lang="ts">
-    let parrotDialogue: string = "SQUAWWWK! <<What game would you like to play today?>>"
+    let parrotDialogue: string = "SQUAWK!! <<You want to play the accuracy game? That's one of my favorites!>>\nSQUAW! SQUAW! <<Here's how to play: >>"
 </script>
 
 <div class="game-menu">
@@ -11,20 +11,11 @@
         <img src="/sprites/parrot_left.png" alt="parrot mascot" style="width: 30%; justify-content: flex-end;">
     </div>
     <div class="game-mode-buttons">
-        <button>
-            <img src="/sprites/racing.png" alt="castle" style="width: 100px; height: auto;">
-            Speed (coming soon!)
-        </button>
-        <a href="/games/accuracyHowTo">
+        <a href="/games/accuracy">
             <button>
-                <img src="/sprites/spaceship.png" alt="castle" style="width: 100px; height: auto;">
-                Accuracy
+                Start Game!
             </button>
         </a>
-        <button>
-            <img src="/sprites/castle.png" alt="castle" style="width: 100px; height: auto;">
-            Word Range (coming soon!)
-        </button>
     </div>
 </div>
 
