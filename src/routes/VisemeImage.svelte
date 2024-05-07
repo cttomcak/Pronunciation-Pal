@@ -55,15 +55,15 @@
 		background-color: rgb(255, 255, 255);
 		border-radius: 20px;
 		background: #ffffff;
-		box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
+		box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.25);
 		padding: 10px;
 	}
 	.length1 {
-		width: 15%;
+		width: 20%;
 		min-width: 200px;
 	}
 	.length2 {
-		width: 30%;
+		width: 40%;
 		min-width: 400px;
 		text-align: center;
 	}
@@ -71,5 +71,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		width: 100%;
 	}
 </style>

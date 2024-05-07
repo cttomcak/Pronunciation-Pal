@@ -15,5 +15,7 @@
 </section>
 
 <style>
-
+	section {
+		width: 100%;
+	}
 </style>

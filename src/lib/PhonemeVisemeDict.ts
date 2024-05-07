@@ -53,7 +53,7 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "ɨ" : "I",
     "ɜː" : "E",
     "uː" : "U",
-    "ɔː" : "O",
+    "ɔː" : "O,RR", // Changed from 'O' to 'O,RR'
     "eɪ" : "E",
     "aɪ" : "aa,I", // Changed from 'aa' to 'aa,I'
     "ɔɪ" : "O,I", // Changed from 'O' to 'O,I'
@@ -138,7 +138,7 @@ export const phoneme_to_diagram_dict: { [id: string] : string; } = {
     "ɨ" : "voiced-palatal-approximant",
     "ɜː" : "voiced-alveolar-approximant",
     "uː" : "voiced-labial-velar-approximant",
-    "ɔː" : "voiced-alveolar-approximant",
+    "ɔː" : "voiced-alveolar-approximant,voiced-alveolar-trill",
     "eɪ" : "voiced-alveolar-approximant",
     "aɪ" : "voiceless-postalveolar-fricative,voiceless-labiodental-fricative",
     "ɔɪ" : "voiced-labial-velar-approximant,voiceless-labiodental-fricative",

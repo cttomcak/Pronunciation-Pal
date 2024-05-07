@@ -74,6 +74,7 @@
 	 */
 	function results_callback(result: SpeechRecognitionEvent) {
 		search_text = result.results[0][0].transcript;
+		generate_info();
 	}
 
 	/**
@@ -401,7 +402,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
-		min-width: 12rem;
+		min-width: 14rem;
 		max-width: 40%;
 		padding: 5px;
 		margin: 5px;

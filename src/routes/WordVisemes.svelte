@@ -29,6 +29,7 @@
 	let showViseme = true;
 	let visemes: string[][] = [];
 	let phonemesList: string[] = [];
+	let showImages = true;
 
 	/**
      * Generates information for this word
@@ -127,22 +128,29 @@
 				<AddFavoriteButton word={word} />
 			{/if}
 			{#if phonemes}
-				<button id="toggle_button" on:click={toggleImages}>Toggle Images</button>
+				<button id="toggle_button" on:click={toggleImages}>Toggle Diagrams</button>
 			{/if}
+			<div>
+			<label style="margin-left:5px;" for="show_images">Show Images</label>
+			<input name="show_images" type="checkbox" bind:checked={showImages}>
+			</div>
 			</div>
 		</div>
 		<!-- Where the viseme pictures go -->
+		{#if showImages}
 		<div id="pictures_go_here">
 			{#each visemes as viseme, i}
 				<VisemeImage {viseme} phoneme={phonemesList[i]} {showViseme} />
 			{/each}
 		</div>
+		{/if}
 	</div>
 </div>
 
 <style>
 	.general_info {
 		margin-top: 2rem;
+		width: 100%;
 	}
 	.flex-column-center {
 		display: flex;
@@ -168,6 +176,7 @@
 		display: flex; /* Display images side by side */
 		flex-wrap: wrap; /* Wrap images to new row if necessary */
 		justify-content: center; /* Center images horizontally */
+		width: 100%;
 	}
 	button {
 		margin: 5px;
