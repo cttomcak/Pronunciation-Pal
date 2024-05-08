@@ -65,6 +65,7 @@
      */
 	function results_callback(result: SpeechRecognitionEvent) {
 		search_text = result.results[0][0].transcript;
+		update_word_list();
 	}
 
 	/**
@@ -175,9 +176,9 @@
 		</div>
 	{/if}
 	<div class="viseme_container">
-	{#each word_list as word, index}
-		<WordVisemes word={word} index={index} on:error={show_error} on:remove={remove_word}/>
-	{/each}
+		{#each word_list as word, index}
+			<WordVisemes word={word} index={index} on:error={show_error} on:remove={remove_word}/>
+		{/each}
 	</div>
 </div>
 
@@ -187,6 +188,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		width: 100%;
 	}
 	.record-buttons {
 		display: flex;
@@ -278,7 +280,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
-		min-width: 12rem;
+		min-width: 14rem;
 		max-width: 40%;
 		padding: 5px;
 		margin: 5px;

@@ -74,6 +74,7 @@
 	 */
 	function results_callback(result: SpeechRecognitionEvent) {
 		search_text = result.results[0][0].transcript;
+		generate_info();
 	}
 
 	/**
@@ -148,15 +149,19 @@
 				// Case if the next phoneme is 2 characters
 				if (i != processed.length - 1 && phoneme_to_viseme_dict[processed.substring(i, i + 2)]) {
 					viseme = phoneme_to_viseme_dict[processed.substring(i, i + 2)];
-					phonemesList.push(processed.substring(i, i + 2));
-					visemesList.push(viseme);
+					viseme.split(',').forEach(vis => {
+						phonemesList.push(processed.substring(i, i + 2));
+						visemesList.push(vis);
+					});
 					i += 1;
 				}
 				// Case if the next phoneme is 1 character
 				else if (phoneme_to_viseme_dict[processed.substring(i, i + 1)]) {
 					viseme = phoneme_to_viseme_dict[processed.substring(i, i + 1)];
-					phonemesList.push(processed.substring(i, i + 1));
-					visemesList.push(viseme);
+					viseme.split(',').forEach(vis => {
+						phonemesList.push(processed.substring(i, i + 1));
+						visemesList.push(vis);
+					});
 				}
 				// We can't find the phoneme. Give error.
 				else {
@@ -397,7 +402,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
-		min-width: 12rem;
+		min-width: 14rem;
 		max-width: 40%;
 		padding: 5px;
 		margin: 5px;

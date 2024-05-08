@@ -26,7 +26,6 @@ export const phoneme_lengths_dict: { [id: string] : number; } = {
     "j" : 60,
     "w" : 80,
     "ɪ" : 50,
-    "ɨ" : 50,
     "e" : 60,
     "æ" : 60,
     "a" : 70,
@@ -38,17 +37,20 @@ export const phoneme_lengths_dict: { [id: string] : number; } = {
     "ɛ" : 60,
     "ɔ" : 70,
     "ɑ" : 70,
+    "ɐ" : 50,
+    "oː" : 50, // Actually long (100), but this runs twice.
     "ɑː" : 100,
     "ʉː" : 100,
     "i" : 60,
     "iː" : 100,
+    "ɨ" : 50,
     "ɜː" : 100,
     "uː" : 100,
-    "ɔː" : 100,
+    "ɔː" : 50, // Actually long (100), but this runs twice.
     "eɪ" : 100,
-    "aɪ" : 100,
-    "ɔɪ" : 100,
-    "aʊ" : 100,
+    "aɪ" : 50, // Actually long (100), but this runs twice.
+    "ɔɪ" : 50, // Actually long (100), but this runs twice.
+    "aʊ" : 50, // Actually long (100), but this runs twice.
     "əʊ" : 100,
     "ɪə" : 100,
     "eə" : 100,

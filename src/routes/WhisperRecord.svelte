@@ -74,7 +74,9 @@
 
 		const formData = new FormData(event.target.form as HTMLFormElement);
 
-		try {
+		if ((formData.get("file") as File).name.length > 0)
+		{
+			try {
 			const response = await fetch('/api/transcribe', {
 				method: 'POST',
 				body: formData
@@ -90,6 +92,7 @@
 		} catch (error) {
 			console.error('Error:', error);
 			alert('An error occurred. Please try again.');
+		}
 		}
 	}
 
