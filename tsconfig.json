@@ -11,7 +11,7 @@
 		"strict": true,
 		"moduleResolution": "bundler"
 	},
-	"include": ["filesForDocs/*"] // Include all TypeScript files in the filesForDocs folder and its subfolders
+	"include": ["./**/*.ts"] // Include all TypeScript files in the project folder and its subfolders
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//
 	// If you want to overwrite includes/excludes, make sure to copy over the relevant includes/excludes

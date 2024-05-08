@@ -1,4 +1,4 @@
-/** Facemesh connections to draw lips */
+/** Facemesh connections to draw lips, from MediaPipe source code */
 export let FACEMESH_LIPS: [number, number][] = [
 	[61, 146],
 	[146, 91],
@@ -42,7 +42,7 @@ export let FACEMESH_LIPS: [number, number][] = [
 	[415, 308]
 ];
 
-/** Facemesh connections to draw left eye */
+/** Facemesh connections to draw left eye, from MediaPipe source code */
 export let FACEMESH_LEFT_EYE: [number, number][] = [
 	[263, 249],
 	[249, 390],
@@ -62,7 +62,7 @@ export let FACEMESH_LEFT_EYE: [number, number][] = [
 	[398, 362]
 ];
 
-/** Facemesh connections to draw left iris */
+/** Facemesh connections to draw left iris, from MediaPipe source code */
 export let FACEMESH_LEFT_IRIS: [number, number][] = [
 	[474, 475],
 	[475, 476],
@@ -70,7 +70,7 @@ export let FACEMESH_LEFT_IRIS: [number, number][] = [
 	[477, 474]
 ];
 
-/** Facemesh connections to draw left eyebrow */
+/** Facemesh connections to draw left eyebrow, from MediaPipe source code */
 export let FACEMESH_LEFT_EYEBROW: [number, number][] = [
 	[276, 283],
 	[283, 282],
@@ -82,7 +82,7 @@ export let FACEMESH_LEFT_EYEBROW: [number, number][] = [
 	[296, 336]
 ];
 
-/** Facemesh connections to draw right eye */
+/** Facemesh connections to draw right eye, from MediaPipe source code */
 export let FACEMESH_RIGHT_EYE: [number, number][] = [
 	[33, 7],
 	[7, 163],
@@ -102,7 +102,7 @@ export let FACEMESH_RIGHT_EYE: [number, number][] = [
 	[173, 133]
 ];
 
-/** Facemesh connections to draw right eyebrow */
+/** Facemesh connections to draw right eyebrow, from MediaPipe source code */
 export let FACEMESH_RIGHT_EYEBROW: [number, number][] = [
 	[46, 53],
 	[53, 52],
@@ -114,7 +114,7 @@ export let FACEMESH_RIGHT_EYEBROW: [number, number][] = [
 	[66, 107]
 ];
 
-/** Facemesh connections to draw right iris */
+/** Facemesh connections to draw right iris, from MediaPipe source code */
 export let FACEMESH_RIGHT_IRIS: [number, number][] = [
 	[469, 470],
 	[470, 471],
@@ -122,7 +122,7 @@ export let FACEMESH_RIGHT_IRIS: [number, number][] = [
 	[472, 469]
 ];
 
-/** Facemesh connections to draw oval around face */
+/** Facemesh connections to draw oval around face, from MediaPipe source code */
 export let FACEMESH_FACE_OVAL: [number, number][] = [
 	[10, 338],
 	[338, 297],
@@ -162,7 +162,7 @@ export let FACEMESH_FACE_OVAL: [number, number][] = [
 	[109, 10]
 ];
 
-/** Facemesh connections to draw nose */
+/** Facemesh connections to draw nose, from MediaPipe source code */
 export let FACEMESH_NOSE: [number, number][] = [
 	[168, 6],
 	[6, 197],
