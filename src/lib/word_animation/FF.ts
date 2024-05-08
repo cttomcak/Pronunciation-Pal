@@ -1,3 +1,4 @@
+/** Facial position for FF viseme in 3D coords */
 export const FF: [number, number, number][] = [
 	[0.5059120655059814, 0.6080503463745117, -0.05576050281524658],
 	[0.5001794099807739, 0.5287995338439941, -0.11813998967409134],

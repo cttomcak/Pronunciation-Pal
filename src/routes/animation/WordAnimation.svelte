@@ -27,6 +27,7 @@
 	import { FACEMESH_NOSE } from '$lib/word_animation/facemesh_features';
 	import { phoneme_lengths_dict } from '$lib/word_animation/phoneme_length';
 
+	/** Text to array dictionary for ease of use */
 	const visemeDictionary: { [id: string]: [number, number, number][] } = {
 		aa: aa,
 		CH: CH,
@@ -45,6 +46,7 @@
 		U: U
 	};
 
+	/** Facemesh features; each draws a certain part of the face */
 	const facemeshFeatures: [number, number][][] = [
 		FACEMESH_LIPS,
 		FACEMESH_LEFT_EYE,
@@ -57,19 +59,33 @@
 		FACEMESH_NOSE
 	];
 
+	/** Visemes to draw */
 	export let visemesProp: string[];
+	/** Phonemes to draw */
 	export let phonemesProp: string[];
+	/** Current viseme displayed */
 	let currentVisemeText = 'sil';
+	/** Current phoneme displayed */
 	let currentPhonemeText = 'silence';
 
+	/** Length to compare viseme lengths to */
 	const averageLength = 70;
+	/** List of viseme data */
 	let trueVisemes: [number, number, number][][] = [];
+	/** Current position, holds the interpolated data */
 	let currentPosition: [number, number, number][] = [];
+	/** Makeshift index of the current viseme that we're on */
 	let increment: number = 0;
+	/** Number of interpolation frames, can be changed by user in slider */
 	let numInterpolationFrames: number = 16;
+	/** Keeps track of how many interpolaton frames we've done so far */
 	let currentInterpolation: number = 0;
+	/** Constant framerate */
 	let frameRate: number = 1 / 60;
 
+	/**
+	 * Main function that initializes everything
+	 */
 	function main() {
 		for (let i = 0; i < sil.length; i++) {
 			currentPosition.push([sil[i][0], sil[i][1], sil[i][2]]);
@@ -92,6 +108,11 @@
 		}
 	}
 
+	/**
+	 * Begins animation on the canvas, uses setInterval()
+	 * @param canvas - HTML canvas to draw on
+	 * @param ctx - Drawing context
+	 */
 	function beginAnimation(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 		visemesProp.forEach((viseme) => {
 			trueVisemes.push(visemeDictionary[viseme]);
@@ -100,6 +121,11 @@
 		setInterval(mainLoop, frameRate * 1000, canvas, ctx);
 	}
 
+	/**
+	 * Main loop that draws the visemes and iterpolation frames
+	 * @param canvas - HTML canvas to draw on
+	 * @param ctx - Drawing context
+	 */
 	function mainLoop(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 		let currentViseme = trueVisemes[increment % trueVisemes.length];
 		let nextViseme = trueVisemes[(increment + 1) % trueVisemes.length];
@@ -141,6 +167,11 @@
 		}
 	}
 
+	/**
+	 * Deep copies multi-dimensional array
+	 * @param current - Copied into
+	 * @param next - Copied from
+	 */
 	function deepCopyViseme(current: [number, number, number][], next: [number, number, number][]) {
 		current.forEach((coordinate, index) => {
 			coordinate[0] = next[index][0];
@@ -149,7 +180,12 @@
 		});
 	}
 
-	// Function to draw normalized coordinates as dots on the canvas
+	/**
+	 * Function to draw all the normalized coordinates and facemesh connections
+	 * @param canvas - HTML canvas to draw on
+	 * @param ctx - Drawing context
+	 * @param coordinates - Array of coordinates to draw
+	 */
 	function drawCurrentPossiton(
 		canvas: HTMLCanvasElement,
 		ctx: CanvasRenderingContext2D,
@@ -218,6 +254,15 @@
 		ctx.stroke();
 	}
 
+	/**
+	 * Function to draw cuved line for teeth
+	 * @param ctx - Drawing context
+	 * @param point1 - Line starting point
+	 * @param point2 - Line ending point
+	 * @param controlPoint - Control point determines where and how the curve will be
+	 * @param color - Color of the line
+	 * @param thickness - Thickness of the line
+	 */
 	function drawCurvedLine(
 		ctx: CanvasRenderingContext2D,
 		point1: [number, number],

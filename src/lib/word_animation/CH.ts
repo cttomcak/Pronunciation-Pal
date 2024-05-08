@@ -1,3 +1,4 @@
+/** Facial position for CH viseme in 3D coords */
 export const CH: [number, number, number][] = [
 	[0.500784158706665, 0.60725998878479, -0.050814367830753326],
 	[0.5001918077468872, 0.5291049480438232, -0.11483705788850784],

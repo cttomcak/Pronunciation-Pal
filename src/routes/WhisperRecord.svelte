@@ -1,16 +1,20 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
 
-	// Declaring variables for media recording
+	/** MediaRecorder Object */
     let mediaRecorder: MediaRecorder | null;
+	/** Stores audio chunks */
     let chunks: BlobPart[] = [];
+	/** Resulting transcription from Whisper */
     let transcription = '';
+	/** Boolean to track whether we're recording or not */
     let recording = false;
+	/** File input element */
 	let fileInput: HTMLInputElement | null;
 
 	/**
      * Starts recording audio from the user's microphone.
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} Void
      */
 	async function startRecording() {
 		try {
@@ -67,7 +71,7 @@
 	/**
      * Submits form data for transcription.
      * @param {Event} event - The form submission event.
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} Void
      */
 	async function submitForm(event: any) {
 		event.preventDefault();

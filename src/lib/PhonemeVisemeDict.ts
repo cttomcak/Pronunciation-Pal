@@ -1,10 +1,4 @@
-// This is the current mapping of IPA phoneme symbols to visemes (in static).
-// I think it's pretty accurate, but change it if there's a problem and leave a comment.
-//
-// If you ever get an error in the console saying "UNMAPPED PHONEME CHARACTER" you need
-// to figure out what it is and add it to the dictionary with the proper viseme mapping (ask chad).
-//
-// The API returns a lot of differing unicode characters for equivelant or similar phonemes.
+/** Mappings of IPA phoneme symbols to visemes */
 export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "p" : "PP",
     "b" : "PP",
@@ -67,9 +61,8 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "oʊ" : "O",
 };
 
-// Description of the 15 visemes that I have.
-// Most sources say there's only 10-16 meaningfully different visemes.
-// I think this collection is pretty good.
+/** Description of the 15 visemes used in this project.
+Most sources say there's only 10-16 meaningfully different visemes. */
 export const viseme_description_dict: { [id: string] : string; } = {
     "aa" : "Wide, open mouth shape",
     "CH" : "Spread lip position, resembling 'sh'",
@@ -88,8 +81,7 @@ export const viseme_description_dict: { [id: string] : string; } = {
     "U" : "Rounded lip shape with relatively open mouth"
 };
 
-/* not sure if these are completely accurate... used Chad (who had his own names for some) 
-+ my own understanding of pronunciation classifications. Maybe check with Korey if we can */ 
+/** Mappings of IPA phoneme symbols to speech-sound diagrams */
 export const phoneme_to_diagram_dict: { [id: string] : string; } = {
     "p" : "voiceless-bilabial-plosive",
     "b" : "voiced-bilabial-plosive",

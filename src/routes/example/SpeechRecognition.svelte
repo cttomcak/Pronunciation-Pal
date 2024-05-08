@@ -21,7 +21,9 @@
 		}
 	}
 
-	// Runs when record button is pressed
+	/**
+	 * Record speech, runs when record button is pressed
+	 */
 	function record_speech() {
 		let recording_button = document.getElementById('recording_button');
 		if (recording_button) {
@@ -36,7 +38,10 @@
 		}
 	}
 
-	// Runs when the speech recognition API automatically returns results
+	/**
+	 * Runs when speech API returns results; callback function.
+	 * @param result Speech Recognition Result
+	 */
 	function results_callback(result: any) {
 		let recording_button = document.getElementById('recording_button');
 		if (recording_button) {
@@ -48,7 +53,9 @@
 		}
 	}
 
-	// A function to generate info on the words in the words text box
+	/**
+	 * Generate info based on text in the word box
+	 */
 	async function generate_info() {
 		let words_text_box = <HTMLInputElement>document.getElementById('words_text_box');
 		let card_div = document.getElementById('info_cards_container');
@@ -91,6 +98,11 @@
 		}
 	}
 
+	/**
+	 * Extracts data from API response
+	 * @param word The word in question
+	 * @param data API response data
+	 */
 	function handle_api_response(word: string, data: any) {
 		// Extract relevant information from the API response
 		const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition available';
@@ -116,7 +128,10 @@
 		}
 	}
 
-	// Handle deletetion of cards. This is called by an event started in the InfoCard component.
+	/**
+	 * Handle deletetion of cards. This is called by an event started in the InfoCard component
+	 * @param event Deletion event
+	 */
 	function handle_remove(event: any)
 	{
 		// Get removed word
@@ -130,7 +145,10 @@
 		}
 	}
 
-	// For input textbox, so a user can press 'Enter' to generate data.
+	/**
+	 * For input textbox, so a user can press 'Enter' to generate data.
+	 * @param event Keyboard event
+	 */
 	function handle_keydown(event: any)
 	{
 		if (event.key === 'Enter' || event.code === 'Enter') {

@@ -1,3 +1,4 @@
+/** Facial position for PP viseme in 3D coords */
 export const PP: [number, number, number][] = [
 	[0.5110331773757935, 0.6223983764648438, -0.05258415266871452],
 	[0.4999924898147583, 0.5310153961181641, -0.11883337795734406],

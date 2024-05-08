@@ -1,3 +1,4 @@
+/** Facemesh connections to draw entire face; connects points to most neigbors */
 export let FACEMESH_TESSELATION: [number, number][] = [
 	[127, 34],
 	[34, 139],

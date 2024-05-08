@@ -1,13 +1,13 @@
 <script lang="ts">
     import WordVisemes from "./WordVisemes.svelte";
 	import WhisperRecord from "./WhisperRecord.svelte";
-	import AudioPlayer from "$lib/AudioPlayer.svelte";
-	import VisemeImage from "./VisemeImage.svelte";
 	import { userData } from './userData';
 	import { onDestroy } from "svelte";
 	
+	/** User favorites list */
     let userFavorites: string[] = [];
 
+	/** Function to unsub from the userData store */
     const unsubscribe = userData.subscribe(value => {
 		if (value)
 		{
@@ -17,12 +17,19 @@
 
 	onDestroy(unsubscribe);
 
+	/** If browser speech-to-text is enabled */
 	let speech_enabled: boolean = false;
+	/** Speech recognition object */
     let recognizer: any;
+	/** Whether the browser is recording right now */
 	let recording: boolean = false;
+	/** Search bar text value */
 	let search_text: string = '';
+	/** List of words currently searched */
 	let word_list: string[] = [];
+	/** List to store errors if they happen */
 	let errors: string[] = [];
+	/** Whether to show favorites or not */
 	let showFavorites: boolean = true;
 	// let generated_words: string[] = [];
 
@@ -102,6 +109,9 @@
 		}
 	}
 
+	/**
+	 * Updates the word list, inserting new words at the start.
+	 */
 	function update_word_list() {
 		// Add in new words if they exist
 		if (search_text.length > 0) {
@@ -126,6 +136,10 @@
 		}
 	}
 
+	/**
+	 * Handles if favorite word was pressed; fills the text input and updates the word list.
+	 * @param event Button Press Event
+	 */
 	function handleFavButtonPress(event: Event) {
 		search_text = (event.target as HTMLButtonElement).id;
 		update_word_list();

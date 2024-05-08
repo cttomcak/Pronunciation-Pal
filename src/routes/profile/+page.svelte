@@ -1,8 +1,13 @@
 <script lang="ts">
 
+    /** User data */
 	export let data;
+    /** New word, bound to the text entry box */
     let newWord = "";
 
+    /**
+     * Adds favorite word for the user.
+     */
     async function addFavoriteWord() {
         const response = await fetch('/api/add-favorite-word', {
             method: 'POST',
@@ -21,6 +26,10 @@
 		window.location.reload();
     }
 
+    /**
+     * Deletes favorite word for the user.
+     * @param event - Button press event object.
+     */
 	async function deleteFavoriteWord(event: Event) {
 		let word: string = (event.target as HTMLButtonElement).id;
 

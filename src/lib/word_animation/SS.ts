@@ -1,3 +1,4 @@
+/** Facial position for SS viseme in 3D coords */
 export const SS: [number, number, number][] = [
 	[0.5066695213317871, 0.6055238246917725, -0.05079484358429909],
 	[0.5000909566879272, 0.5291671752929688, -0.1173233836889267],

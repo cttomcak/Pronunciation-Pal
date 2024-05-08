@@ -1,3 +1,4 @@
+/** Facial position for DD viseme in 3D coords */
 export const DD: [number, number, number][] = [
 	[0.5090858936309814, 0.6225795745849609, -0.05775886029005051],
 	[0.5003390312194824, 0.5292344093322754, -0.11783955246210098],
