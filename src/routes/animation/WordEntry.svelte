@@ -7,11 +7,15 @@
 	import { userData } from './userData';
 	import { onDestroy } from 'svelte';
 	import AddFavoriteButton from './AddFavoriteButton.svelte';
-
+ 
+	/** User favorites list */
 	let userFavorites: string[] = [];
+	/** Whether to show favorites or not */
 	let showFavorites: boolean = true;
+	/** Whether to show favorite button */
 	let showFavoriteButton = false;
 
+	/** Function to unsub from the userData store */
 	const unsubscribe = userData.subscribe((value) => {
 		if (value) {
 			showFavoriteButton = true;
@@ -21,18 +25,29 @@
 
 	onDestroy(unsubscribe);
 
+	/** Visemes list to be sent to child component */
 	let visemesList: string[] = [];
+	/** Phonemes list to be sent to child component */
 	let phonemesList: string[] = [];
+	/** Child object (WordAnimation.svelte) */
 	let childObject: SvelteComponent;
 
+	/** If browser speech-to-text is enabled */
 	let speech_enabled: boolean = false;
+	/** Speech recognition object */
 	let recognizer: SpeechRecognition;
+	/** Whether the browser is recording right now */
 	let recording: boolean = false;
+	/** Search bar text value */
 	let search_text: string = '';
 
+	/** Current word */
 	let currentWord: string;
+	/** Word's definition */
 	let definition: string;
+	/** Word's phonemes */
 	let phonemes: string;
+	/** Word's audio URL */
 	let pronunciation: string;
 
 	// Check if window is defined (running on the client side)
@@ -217,6 +232,10 @@
 		}
 	}
 
+	/**
+	 * Fills text entry and calls generate_info() when a favorite word is pressed
+	 * @param event - Button press event
+	 */
 	function handleFavButtonPress(event: Event) {
 		search_text = (event.target as HTMLButtonElement).id;
 		generate_info();

@@ -1,3 +1,4 @@
+/** Facial position for nn viseme in 3D coords */
 export const nn: [number, number, number][] = [
 	[0.5132225751876831, 0.6291112899780273, -0.05700494721531868],
 	[0.5001277923583984, 0.5297412872314453, -0.11852657794952393],

@@ -10,7 +10,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	// Sends an event to the parent component to delete the card
+	/** Sends an event to the parent component to delete the card */
 	function remove_card() {
 		dispatch('remove', { word });
 	}

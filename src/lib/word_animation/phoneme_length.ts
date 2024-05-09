@@ -1,3 +1,4 @@
+/** Relative length of each phoneme for speech animation */
 export const phoneme_lengths_dict: { [id: string] : number; } = {
     "p" : 50,
     "b" : 50,
@@ -38,7 +39,7 @@ export const phoneme_lengths_dict: { [id: string] : number; } = {
     "ɔ" : 70,
     "ɑ" : 70,
     "ɐ" : 50,
-    "oː" : 50, // Actually long (100), but this runs twice.
+    "oː" : 50, // Actually long (100), but this runs twice*
     "ɑː" : 100,
     "ʉː" : 100,
     "i" : 60,
@@ -46,11 +47,11 @@ export const phoneme_lengths_dict: { [id: string] : number; } = {
     "ɨ" : 50,
     "ɜː" : 100,
     "uː" : 100,
-    "ɔː" : 50, // Actually long (100), but this runs twice.
+    "ɔː" : 50, // Actually long (100), but this runs twice *
     "eɪ" : 100,
-    "aɪ" : 50, // Actually long (100), but this runs twice.
-    "ɔɪ" : 50, // Actually long (100), but this runs twice.
-    "aʊ" : 50, // Actually long (100), but this runs twice.
+    "aɪ" : 50, // Actually long (100), but this runs twice *
+    "ɔɪ" : 50, // Actually long (100), but this runs twice *
+    "aʊ" : 50, // Actually long (100), but this runs twice *
     "əʊ" : 100,
     "ɪə" : 100,
     "eə" : 100,
@@ -60,3 +61,5 @@ export const phoneme_lengths_dict: { [id: string] : number; } = {
     "oʊ" : 100,
     "silence": 50,
 };
+
+// * The phonemes marked have 2 associated visemes; the time listed is for each induvidual viseme, so you can double it.

@@ -6,6 +6,11 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '$env/static/private';
 import { DBClient } from '$lib/server/database';
 
+/**
+ * If user is logged in, redirect to home
+ * @param locals Info
+ * @returns Redirect
+ */
 export const load: PageServerLoad = ({locals}) => {
     if (locals.user) {
         return redirect(302, '/');
@@ -14,8 +19,16 @@ export const load: PageServerLoad = ({locals}) => {
     }
 };
 
+/**
+ * Server-Side Actions
+ */
 export const actions: Actions = {
-    // Log someone in
+    /**
+     * Log someone in
+     * @param cookies Cookies
+     * @param request Request
+     * @returns Fail or Redirect
+     */
     login: async ({cookies, request}: RequestEvent) => {
         const formData = await request.formData();
         const email = formData.get('email')?.toString()?? '';
@@ -45,7 +58,11 @@ export const actions: Actions = {
         }
         return fail(500, { error: 'Internal Server Error' });
     },
-    // Register a new user
+    /**
+     * Register a new user
+     * @param event Event
+     * @returns Redirect or Fail
+     */
     register: async (event) => {
         const formData = await event.request.formData();
         const email = formData.get('email')?.toString()?? '';
@@ -81,6 +98,11 @@ export const actions: Actions = {
             };
         }
     },
+    /**
+     * Logout a user
+     * @param cookies Cookies
+     * @returns Redirect
+     */
     logout: async ({cookies}) => {
         cookies.delete('auth_token', { path: '/' });
         return redirect(303, '/');

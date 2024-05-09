@@ -1,3 +1,4 @@
+/** Facial position for kk viseme in 3D coords */
 export const kk: [number, number, number][] = [
 	[0.5030347108840942, 0.6141757965087891, -0.04782641679048538],
 	[0.4998384714126587, 0.5294115543365479, -0.11476950347423553],

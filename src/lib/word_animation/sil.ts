@@ -1,3 +1,4 @@
+/** Facial position for sil viseme in 3D coords */
 export const sil: [number, number, number][] = [
 	[0.5039458274841309, 0.6308650970458984, -0.05128302425146103],
 	[0.49993932247161865, 0.5298810005187988, -0.11667023599147797],

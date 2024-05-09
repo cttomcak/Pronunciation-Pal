@@ -1,3 +1,4 @@
+/** Facial position for TH viseme in 3D coords */
 export const TH: [number, number, number][] = [
 	[0.5083478689193726, 0.6139094829559326, -0.05220094695687294],
 	[0.5000687837600708, 0.5293350219726562, -0.11764486879110336],

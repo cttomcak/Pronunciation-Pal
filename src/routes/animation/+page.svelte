@@ -2,6 +2,7 @@
 	import WordEntry from "./WordEntry.svelte"
 	import { userData } from "./userData";
 
+	/** User's data */
 	export let data;
 	userData.set(data.user);
 </script>

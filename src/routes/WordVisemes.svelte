@@ -6,8 +6,10 @@
 	import AddFavoriteButton from './AddFavoriteButton.svelte';
 	import { userData } from './userData';
 	
+	/** Whether to show favorite button */
     let showFavoriteButton = false;
 
+	/** Function to unsub from the userData store */
     const unsubscribe = userData.subscribe(value => {
 		if (value)
 		{
@@ -17,18 +19,28 @@
 
 	onDestroy(unsubscribe);
 
+	/** Word in question */
 	export let word: string = '';
+	/** Index for if we want to remove this word */
 	export let index: number = 0;
+	/** Definition of word */
 	export let definition: string = '';
+	/** Phonemes of word */
 	export let phonemes: string = '';
+	/** Pronunciation sound API link */
 	export let pronunciation: string = '';
 
 	const dispatch = createEventDispatcher();
 
+	/** For the phonemes after removing unneeded characters */
 	let processed;
+	/** Whether to show viseme images or speech sound diagram in this component's children */
 	let showViseme = true;
+	/** Visemes list */
 	let visemes: string[][] = [];
+	/** Corresponding phonemes */
 	let phonemesList: string[] = [];
+	/** Whether to show images or not (save space on page) */
 	let showImages = true;
 
 	/**
@@ -96,10 +108,12 @@
 		generate_info();
 	}
 
+	/** Switch images on or off */
 	function toggleImages() {
 		showViseme = !showViseme;
 	}
 
+	/** Remove this word/component using events system */
 	function removeWord() {
 		dispatch('remove', index);
 	}

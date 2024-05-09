@@ -1,3 +1,4 @@
+/** Facial position for RR viseme in 3D coords */
 export const RR: [number, number, number][] = [
 	[0.5030508041381836, 0.611154317855835, -0.04804496094584465],
 	[0.5004513263702393, 0.5288026332855225, -0.11384648829698563],

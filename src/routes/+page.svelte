@@ -2,6 +2,7 @@
 	import WordSearch from "./WordSearch.svelte";
 	import { userData } from "./userData";
 
+	/** User data */
 	export let data;
 	userData.set(data.user);
 </script>

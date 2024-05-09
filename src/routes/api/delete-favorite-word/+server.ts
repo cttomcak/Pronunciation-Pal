@@ -1,8 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { User } from '$lib/server/models/User';
 
-// For some reason the bodies of these requests aren't json, they're ReadableStreams.
-// The requests made in the front end were completely normal, so I personally have no clue what this is.
+/**
+ * POST request handler to delete a favorite word for the user.
+ * @param {import('@sveltejs/kit').Request} request - The incoming request object.
+ * @returns {Promise<import('@sveltejs/kit').Response>} A Response object indicating success or failure.
+ */
 export const POST: RequestHandler = async (request) => {
 	// Read the request body from the ReadableStream
 	const body = JSON.parse(await readRequestBody(request.request));
@@ -29,6 +32,11 @@ export const POST: RequestHandler = async (request) => {
 	});
 };
 
+/**
+ * Function to read the request body from a ReadableStream.
+ * @param {import('@sveltejs/kit').Request} request - The incoming request object.
+ * @returns {Promise<string>} A Promise that resolves to the request body string.
+ */
 async function readRequestBody(request) {
 	// Read the request body from the ReadableStream
 	const reader = request.body.getReader();
