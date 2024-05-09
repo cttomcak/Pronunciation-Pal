@@ -41,7 +41,6 @@ like the header and footer. Just has some basic css right now. -->
 	}
 
 	footer {
-		margin-top: 10px;
 		display: flex;
 		justify-content: center; /* Centers content on horizontal axis */
 		align-items: center; /* Centers content on vertical axis */
