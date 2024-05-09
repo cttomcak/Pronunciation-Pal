@@ -11,8 +11,8 @@
     let favoriteWords: string | string[] = [];
 
     /**
-    * Function to unsubscribe from userData.
-    */
+     * Function to unsubscribe from userData.
+     */
     const unsubscribe = userData.subscribe(value => {
         favoriteWords = JSON.parse((value as any).favorite_words || '[]');
     });
@@ -57,10 +57,34 @@
             console.error('Failed to add favorite word');
         }
     }
+
+    /**
+     * Deletes favorite word for the user.
+     * @param event - Button press event object.
+     */
+	async function deleteFavoriteWord(event: Event) {
+		let word: string = (event.target as HTMLButtonElement).id;
+
+		const response = await fetch('/api/delete-favorite-word', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ word: word })
+        });
+
+        if (response.ok) {
+            console.log('Favorite word deleted successfully');
+            favoriteAdded = false
+        } else {
+            console.error('Failed to delete favorite word');
+        }
+	}
 </script>
 <div>
     {#if favoriteAdded}
-        <button disabled>Favorited ✔</button>
+        <!-- <button disabled>Favorited ✔</button> -->
+        <button id={word} on:click={deleteFavoriteWord}>Unfavorite "{word.charAt(0).toUpperCase() + word.slice(1)}"</button>
     {:else}
         <button on:click={addFavoriteWord}>Favorite "{word.charAt(0).toUpperCase() + word.slice(1)}"</button> <!--❤️-->
     {/if}
