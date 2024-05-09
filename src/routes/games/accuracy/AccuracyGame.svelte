@@ -17,8 +17,16 @@
         players: [
             {
                 default: {
-                    name: "p1",
+                    name: "spaceship",
                     images: ["/sprites/spaceship.png"],
+                    animationSpeed: 2,
+                    offset: { x: 0, y: 0 }
+                }
+            },
+            {
+                default: {
+                    name: "meteorite",
+                    images: ["/sprites/meteorite.png"],
                     animationSpeed: 2,
                     offset: { x: 0, y: 0 }
                 }
@@ -92,6 +100,19 @@
         };
     }
 
+    const words: string[] = [
+    "foot", "stay", "bush", "bread", "long", "theme", "dare", "lunch", "lemon", "kit",
+    "wage", "brink", "week", "kick", "sit", "float", "treat", "green", "plant", "glass",
+    "tread", "quit", "raid", "cycle", "late", "flex", "gate", "quest", "turn", "is",
+    "half", "chaos", "fast", "row", "troop", "twist", "knock", "smile", "to", "aid",
+    "punch", "pass", "pill", "fame", "angel", "sign", "pile", "piece", "dose", "fart",
+    "stuff", "deck", "crash", "grip", "east", "bland", "shock", "adult", "guide", "rumor",
+    "well", "shout", "beef", "spare", "pupil", "month", "firm", "tool", "touch", "error",
+    "mill", "rifle", "bar", "smart", "bear", "virus", "slab", "wheel", "blade", "can",
+    "vague", "ask", "chase", "sand", "lung", "joy", "trial", "board", "movie", "vein",
+    "slump", "relax", "venus", "ample", "creed", "bolt", "rack", "bow", "platitudinous", "meow",
+    ];
+
     export class Game {
         ctx: CanvasRenderingContext2D
         collider: Collider2d
@@ -100,17 +121,16 @@
         characters: Character[] = []
         theme: Theme | undefined
         renderer: Renderer
+        fallSpeed = 0.20
+        score = 0
+        scoreString = ""
 
         constructor(canvas: HTMLCanvasElement) {
-            if (!canvas || !canvas.getContext("2d")) {
-                console.error("canvas is missing");
-            } else {
-                console.log("canvas successfully loaded")
-            }
             this.ctx = canvas.getContext("2d")!;
             this.collider = new Collider2d()
             this.initializeTheme(themes.standard)
             this.renderer = new Renderer(this.ctx);
+            this.scoreString = "Score: 0"
         }
 
         getTheme() {
@@ -124,9 +144,13 @@
             this.scene = new Scene(this, this.theme)
             this.characters = []
             const player = new Character(this, 0, this.theme)
+            const meteorite1 = new Character(this, 1, this.theme)
+            const meteorite2 = new Character(this, 1, this.theme)
+            const meteorite3 = new Character(this, 1, this.theme)
             this.characters.push(player)
             player.setActive(true)
-            console.log("theme successfully initialized")
+            this.ctx.strokeStyle = "orange"
+            this.ctx.lineWidth = 3
         }
     }
 
@@ -151,6 +175,7 @@
             movingX: number
             movingY: number
         }
+        associatedWord: string = ""
 
         constructor(game: Game, playerNumber: number, theme: Theme) {
             this.game = game
@@ -177,9 +202,13 @@
                 movingY: 0
             }
 
-            this.registerControls()
-
-            console.log("Initial position: " + this.position.x + " " + this.position.y)
+            if (playerNumber == 0) {
+                this.registerControls()
+            } else {
+                const randomIndex = Math.floor(Math.random() * words.length)
+                this.associatedWord = words[randomIndex]
+                this.active = true
+            }
 
             window.requestAnimationFrame(() => {
                 this.move()
@@ -188,13 +217,46 @@
             this.ctx.canvas.addEventListener("tick", (event: TickEvent) => {
                 this.onNextTick(event)
             })
+
+            this.ctx.canvas.addEventListener("checkHit", (e) => {   
+                if (this.associatedWord == lastRecordedWord.toLowerCase()) {
+                    let spaceship = game.characters[0]
+                    if (this.position.x >= spaceship.position.x - (this.size / 2) && this.position.x <= spaceship.position.x + spaceship.size) {
+                        this.restartCycleScore()
+                    }
+                }
+            })
+        }
+
+        restartCycleEdge(): void {
+            this.position = this.getInitialPosition()
+            const randomIndex = Math.floor(Math.random() * words.length)
+            this.associatedWord = words[randomIndex]
+        }
+
+        restartCycleScore(): void {
+            this.game.score += 100
+            this.game.scoreString = "Score: " + this.game.score
+            if (this.game.score % 1000 == 0) {
+                this.game.fallSpeed += 0.10
+            }
+            this.position = this.getInitialPosition()
+            const randomIndex = Math.floor(Math.random() * words.length)
+            this.associatedWord = words[randomIndex]
         }
 
         private getInitialPosition(): {x: number, y: number} {
-           return {
-            x: this.ctx.canvas.width - 50 - this.size,
-            y: this.ctx.canvas.height - 50 - this.size
+           if (this.playerNumber == 0) {
+                return {
+                    x: this.ctx.canvas.width - 50 - this.size,
+                    y: this.ctx.canvas.height - 50 - this.size
+                }
+           } else {    
+            return {
+                    x: Math.floor(Math.random() * (canvas.width - 2) + 1), y: 0
+                }
            }
+            
         }
 
         private createObstacle(id: string): Obstacle {
@@ -241,6 +303,21 @@
                     }
                 });
             });
+
+            //shoot/record
+            config.controls[this.playerNumber].space.forEach((key: string) => {
+                document.addEventListener("keydown", (event: KeyboardEvent) => {
+                    this.captureEvent(event);
+                    if (event.code === key && event.repeat === false) {
+                        record_speech()
+                    }
+                });
+                document.addEventListener("keyup", (event: KeyboardEvent) => {
+                    this.captureEvent(event);
+                    if (event.code === key) {
+                    }
+                });
+            });
         }
 
         private captureEvent(event: KeyboardEvent): void {
@@ -268,7 +345,7 @@
 			    const friction = 0.8;
 
 			    if (!collision) {
-				    return;
+                    return;
 			    }
 
 			    this.velocity.x = (this.velocity.x + collision.overlapV.x * -1) * friction;
@@ -320,6 +397,15 @@
 		    );
         }
 
+        private fall(): void {
+            if (this.position.y == 800 - this.size) {
+                this.restartCycleEdge()
+            }
+            if (this.playerNumber == 1) {
+                this.position.y = this.position.y + this.game.fallSpeed
+            }
+        }
+
         private draw(frameCount: number): void {
             this.ctx.save();
 
@@ -331,12 +417,29 @@
             //debug hitbox
             //this.ctx.fillRect(this.size / -2, this.size / -2, this.size, this.size);
 
+            if (this.playerNumber == 0) {
+                this.ctx.beginPath()
+                this.ctx.moveTo(this.size / -64, this.size / -2)
+                this.ctx.lineTo(this.size / -64, (this.size / -2) - 9999)
+                this.ctx.stroke()
+            }
+            
             this.theme.drawSprite(
 			    this.ctx,
 			    this.getSprite().name,
 			    { x: this.size / -2, y: this.size / -2 },
 			    frameCount
 		    );
+
+            if (this.playerNumber == 1) {
+                this.ctx.font = "32px sans-serif"
+                this.ctx.fillStyle = "white"
+                this.ctx.fillText(this.associatedWord, this.size / -2, this.size / -128)
+            } else {
+                this.ctx.font = "16px sans-serif"
+                this.ctx.fillStyle = "yellow"
+                this.ctx.fillText(this.game.scoreString, this.size / -4, (this.size / -128) + (this.size / 2) + 25)
+            }
 
 		    this.ctx.restore();
         }
@@ -357,6 +460,7 @@
             if (this.active) {
                 this.move()
                 this.collide()
+                this.fall()
             }
         }
 
@@ -367,7 +471,12 @@
 			    this.executeCharacterActions();
 		    }
 
-		    this.draw(tick.detail!.frameCount);
+		    if (recording) {
+                this.ctx.strokeStyle = "red"
+            } else {
+                this.ctx.strokeStyle = "orange"
+            }
+            this.draw(tick.detail!.frameCount);
         }
     }
 
@@ -473,7 +582,7 @@
 		    });
 		    this.sprites.push(this.config.scene);
 
-		    this.config.players.forEach((player) => {
+            this.config.players.forEach((player) => {
 				player.default.images.forEach(async (image: string) => {
 					const imageResp = await this.loadImage(image);
 					if (toLoad.includes(imageResp)) {
@@ -608,17 +717,104 @@
     }
 
     let canvas: HTMLCanvasElement
+    let speech_enabled: boolean = false;
+    let recognizer: any;
+	let recording: boolean = false;
+    let game: Game
+    let lastRecordedWord: string = ""
+
+    const recordedEvent = new Event("checkHit")
+
+	if (typeof window !== 'undefined') {
+		let SpeechRecognition =
+			(window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+		if (SpeechRecognition) {
+			recognizer = new SpeechRecognition();
+			if (recognizer) {
+				recognizer.onresult = results_callback;
+				speech_enabled = true;
+				recognizer.onstart = function () {
+					recording = true;
+				};
+				recognizer.onend = function () {
+					recording = false;
+				};
+				recognizer.onerror = function () {
+					recording = false;
+				};
+			}
+		} else {
+			console.error('SpeechRecognition API not supported on this browser');
+		}
+	}
+
+	function record_speech() {
+		recognizer.start();
+	}
+
+	function results_callback(result: SpeechRecognitionEvent) {
+		console.log(result.results[0][0].transcript)
+        lastRecordedWord = result.results[0][0].transcript;
+        canvas.dispatchEvent(recordedEvent)
+	}
 
     onMount(() => {
-        new Game(canvas)
+        game = new Game(canvas)
     })
 
 </script>
 
 <canvas bind:this={canvas} width="800" height="800"></canvas>
+<div class="record-indicator">
+    {#if recording}
+        <div>
+            🔴    
+        </div>
+        <div>
+            <p>Recording...</p>
+        </div>
+    {:else}
+        <div>
+            ⚪    
+        </div>
+        <div>
+            <p>[SPACE] Record</p>
+        </div>
+    {/if}
+    <div>
+        <a href="/games">
+            <button>
+                Back to Games
+            </button>
+        </a>
+    </div>
+</div>
 
 <style>
     canvas {
         background-color: rgb(0, 40, 87);
     }
+    .record-indicator {
+        font-size: 72;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    button:hover {
+		border-color: darkmagenta;
+		background-color: darkviolet;
+	}
+    button {
+		margin: 5px;
+		padding: 10px;
+		background-color: #4942E4;
+		color: #ffffff;
+		border: 3px solid #11009E;
+		border-radius: 5px;
+		cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+	}
 </style>

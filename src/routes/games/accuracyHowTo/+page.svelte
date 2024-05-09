@@ -1,5 +1,5 @@
 <script lang="ts">
-    let parrotDialogue: string = "SQUAWK!! <<You want to play the accuracy game? That's one of my favorites!>>\nSQUAW! SQUAW! <<Here's how to play: >>"
+    let parrotDialogue: string = "SQUAWK!! <<You want to play the accuracy game? That's one of my favorites!>> SQUAW! SQUAW! <<Here's how to play: Use the A and D keys on your keyboard to move your ship left and right. Line up your laser with the meteorites and press Space to charge the laser and start recording! If you pronounce the word correctly, you'll destroy the meteor and earn points! Watch out, they get faster over time! Make sure to speak clearly and loudly!>>"
 </script>
 
 <div class="game-menu">

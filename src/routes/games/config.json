@@ -2,7 +2,8 @@
 	"controls": [
 		{
 			"left": ["KeyA"],
-			"right": ["KeyD"]
+			"right": ["KeyD"],
+			"space": ["Space"]
 		}
 	]
 }
