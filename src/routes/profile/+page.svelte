@@ -63,8 +63,7 @@
 </script>
 
 <section>
-    <h1>Profile Page</h1>
-    <h2>Hello, {data.user.first_name}</h2>
+    <h1>Hello, {data.user.first_name}</h1>
     <input type="text" bind:value={newWord} on:keydown={handle_keydown}/>
     <button on:click={addFavoriteWord}>Add Favorite Word</button>
     <h3>Favorite Words:</h3>
@@ -73,7 +72,4 @@
             <li>{word.charAt(0).toUpperCase() + word.slice(1)} <button id={word} on:click={deleteFavoriteWord}>Remove</button></li>
         {/each}
     </ul>
-    <form action="/auth?/logout" method="POST">
-        <button type="submit">Logout</button>
-    </form>
 </section>
