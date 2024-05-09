@@ -13,6 +13,7 @@
 			<a href="/">Home</a>
 			<a href="/animation">Speech Animation</a>
 			{#if loggedIn}
+			<a href="/profile">Profile</a>
 			<form action="/auth?/logout" method="POST">
 				<button type="submit">Logout</button>
 			</form>
@@ -20,7 +21,6 @@
 				<a href="/auth/login">Login</a>
 				<a href="/auth/register">Register</a>
 			{/if}
-			<a href="/profile">Profile</a>
 		</div>
 	</nav>
 </header>
