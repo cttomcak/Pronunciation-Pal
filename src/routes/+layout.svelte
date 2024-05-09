@@ -5,10 +5,11 @@ like the header and footer. Just has some basic css right now. -->
 	import Header from './Header.svelte';
 	// For global styles
 	import './styles.css';
+	export let data;
 </script>
 
 <div class="app">
-	<Header />
+	<Header loggedIn={data.user}/>
 
 	<main>
 		<slot />
@@ -41,7 +42,6 @@ like the header and footer. Just has some basic css right now. -->
 	}
 
 	footer {
-		margin-top: 10px;
 		display: flex;
 		justify-content: center; /* Centers content on horizontal axis */
 		align-items: center; /* Centers content on vertical axis */
