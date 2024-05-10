@@ -68,6 +68,7 @@
         <input type="text" bind:value={newWord} on:keydown={handle_keydown} placeholder="Favorite"/>
         <button class="favorite-button" on:click={addFavoriteWord}>Add Favorite Word</button>
     </div>
+    {#if JSON.parse(data.user.favorite_words).length > 0}
     <div class="favorites-box">
         <h3>Favorite Words:</h3>
         <ul>
@@ -80,6 +81,7 @@
             {/each}
         </ul>
     </div>
+    {/if}
 </section>
 
 <style>
@@ -163,6 +165,7 @@
     li > button > svg {
         fill: rgba(114, 114, 114, 0.5);
 		transition: cubic-bezier(1, 0, 0, 1) 0.3s;
+        pointer-events: none;
     }
 
 	li > button:hover > svg {
