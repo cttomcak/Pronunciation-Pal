@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { DBClient } from '../database';
 
+/** Model for User in sqlite database */
 export const User = DBClient.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -22,6 +23,9 @@ export const User = DBClient.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    favorite_words: {
+        type: DataTypes.JSON
     }
 });
 

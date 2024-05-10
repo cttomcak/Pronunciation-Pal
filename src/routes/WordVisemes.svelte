@@ -1,20 +1,47 @@
 <script lang="ts">
 	import VisemeImage from './VisemeImage.svelte';
 	import { phoneme_to_viseme_dict } from '../lib/PhonemeVisemeDict';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onDestroy } from 'svelte';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
+	import AddFavoriteButton from './AddFavoriteButton.svelte';
+	import { userData } from './userData';
+	
+	/** Whether to show favorite button */
+    let showFavoriteButton = false;
 
+	/** Function to unsub from the userData store */
+    const unsubscribe = userData.subscribe(value => {
+		if (value)
+		{
+			showFavoriteButton = true;
+		}
+    });
+
+	onDestroy(unsubscribe);
+
+	/** Word in question */
 	export let word: string = '';
+	/** Index for if we want to remove this word */
+	export let index: number = 0;
+	/** Definition of word */
 	export let definition: string = '';
+	/** Phonemes of word */
 	export let phonemes: string = '';
+	/** Pronunciation sound API link */
 	export let pronunciation: string = '';
 
 	const dispatch = createEventDispatcher();
 
+	/** For the phonemes after removing unneeded characters */
 	let processed;
+	/** Whether to show viseme images or speech sound diagram in this component's children */
 	let showViseme = true;
-	let visemes: string[] = [];
+	/** Visemes list */
+	let visemes: string[][] = [];
+	/** Corresponding phonemes */
 	let phonemesList: string[] = [];
+	/** Whether to show images or not (save space on page) */
+	let showImages = true;
 
 	/**
      * Generates information for this word
@@ -55,14 +82,14 @@
 				if (i != processed.length - 1 && phoneme_to_viseme_dict[processed.substring(i, i + 2)]) {
 					viseme = phoneme_to_viseme_dict[processed.substring(i, i + 2)];
 					phonemesList.push(processed.substring(i, i + 2));
-					visemes.push(viseme);
+					visemes.push(viseme.split(','));
 					i += 1;
 				}
 				// Case if the next phoneme is 1 character
 				else if (phoneme_to_viseme_dict[processed.substring(i, i + 1)]) {
 					viseme = phoneme_to_viseme_dict[processed.substring(i, i + 1)];
 					phonemesList.push(processed.substring(i, i + 1));
-					visemes.push(viseme);
+					visemes.push(viseme.split(','));
 				}
 				// We can't find the phoneme. Give error.
 				else {
@@ -75,58 +102,82 @@
 		visemes = visemes;
 	}
 	$: if (word) {
+		definition = '';
+		phonemes = '';
+		pronunciation = '';
 		generate_info();
 	}
 
+	/** Switch images on or off */
 	function toggleImages() {
 		showViseme = !showViseme;
+	}
+
+	/** Remove this word/component using events system */
+	function removeWord() {
+		dispatch('remove', index);
 	}
 
 </script>
 
 <div class="general_info">
 	<div class="flex-column-center background-white">
+		<button class="close-button" aria-label="Close" on:click={removeWord}>
+			<span aria-hidden="true">×</span>
+		</button>
 		<!-- Display some other info about the word -->
 		<div class="info-box">
 			<div class="definition-box">
-				<p><strong>{word.toUpperCase()}</strong></p>
-				<p class="phonemes">{phonemes}</p>
+				<strong>{word.toUpperCase()}</strong>
+				{phonemes}
 			</div>
 			<p>{definition}</p>
+			<div class="buttons-div">
 			{#if pronunciation}
-				<p><AudioPlayer audioUrl={pronunciation} /></p>
+				<AudioPlayer audioUrl={pronunciation} />
 			{:else}
-				<p><strong>No pronunciation available</strong></p>
+				<p style="padding-right: 6px;"><strong>No Audio Available</strong></p>
 			{/if}
-			<button id="toggle_button" on:click={toggleImages}>Toggle Images</button>
+			{#if showFavoriteButton}
+				<AddFavoriteButton word={word} />
+			{/if}
+			{#if phonemes}
+				<button id="toggle_button" on:click={toggleImages}>Toggle Diagrams</button>
+			{/if}
+			<div>
+			<label style="margin-left:5px;" for="show_images">Show Images</label>
+			<input name="show_images" type="checkbox" bind:checked={showImages}>
+			</div>
+			</div>
 		</div>
 		<!-- Where the viseme pictures go -->
+		{#if showImages}
 		<div id="pictures_go_here">
 			{#each visemes as viseme, i}
 				<VisemeImage {viseme} phoneme={phonemesList[i]} {showViseme} />
 			{/each}
 		</div>
+		{/if}
 	</div>
 </div>
 
 <style>
 	.general_info {
-		margin-top: 2rem;
+		margin-top: 1rem;
+		width: 100%;
 	}
 	.flex-column-center {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		position: relative;
 	}
 	.definition-box {
 		display: flex;
 		flex-direction: row;
-	}
-	.definition-box p {
-		margin: 1rem 0 0 0;
-	}
-	.phonemes {
-		margin-top: 1.8rem !important;
+		justify-content: center;
+		align-items: center;
+		margin-top: 1.2rem;
 	}
 	.definition-box strong {
 		font-size: xx-large;
@@ -139,6 +190,8 @@
 		display: flex; /* Display images side by side */
 		flex-wrap: wrap; /* Wrap images to new row if necessary */
 		justify-content: center; /* Center images horizontally */
+		width: 100%;
+		margin-bottom: 0.5rem;
 	}
 	button {
 		margin: 5px;
@@ -148,5 +201,33 @@
 		border: 3px solid #11009E;
 		border-radius: 5px;
 		cursor: pointer;
+	}
+
+	.close-button {
+		position: absolute;
+		right: 10px;
+		background-color: white;
+		padding: 2px;
+		margin: 0;
+		border: none;
+		font-size: 3rem;
+		color: rgba(172, 172, 172, 0.5);
+		transition: cubic-bezier(1, 0, 0, 1) 0.3s;
+	}
+
+	.close-button:hover {
+		color: black;
+	}
+	.buttons-div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1rem;
+	}
+	.info-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 	}
 </style>

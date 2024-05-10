@@ -1,15 +1,20 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
 
-	// Declaring variables for media recording
+	/** MediaRecorder Object */
     let mediaRecorder: MediaRecorder | null;
+	/** Stores audio chunks */
     let chunks: BlobPart[] = [];
+	/** Resulting transcription from Whisper */
     let transcription = '';
+	/** Boolean to track whether we're recording or not */
     let recording = false;
+	/** File input element */
+	let fileInput: HTMLInputElement | null;
 
 	/**
      * Starts recording audio from the user's microphone.
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} Void
      */
 	async function startRecording() {
 		try {
@@ -26,14 +31,14 @@
 				formData.append('file', audioBlob);
 
 				try {
-					const response = await fetch('http://localhost:3000/transcribe', {
+					const response = await fetch('/api/transcribe', {
 						method: 'POST',
 						body: formData
 					});
 
 					if (response.ok) {
 						const data = await response.json();
-						transcription = data.transcription;
+						transcription = data.text;
                         set_parent_text();
 					} else {
 						alert('Error: ' + response.statusText);
@@ -66,22 +71,24 @@
 	/**
      * Submits form data for transcription.
      * @param {Event} event - The form submission event.
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} Void
      */
-	async function submitForm(event: Event) {
+	async function submitForm(event: any) {
 		event.preventDefault();
 
-		const formData = new FormData(event.target as HTMLFormElement);
+		const formData = new FormData(event.target.form as HTMLFormElement);
 
-		try {
-			const response = await fetch('http://localhost:3000/transcribe', {
+		if ((formData.get("file") as File).name.length > 0)
+		{
+			try {
+			const response = await fetch('/api/transcribe', {
 				method: 'POST',
 				body: formData
 			});
 
 			if (response.ok) {
 				const data = await response.json();
-				transcription = data.transcription;
+				transcription = data.text;
                 set_parent_text();
 			} else {
 				alert('Error: ' + response.statusText);
@@ -89,6 +96,7 @@
 		} catch (error) {
 			console.error('Error:', error);
 			alert('An error occurred. Please try again.');
+		}
 		}
 	}
 
@@ -98,17 +106,16 @@
      * Sends an event to the parent component to set the search bar text.
      */
 	function set_parent_text() {
-        transcription = transcription.replaceAll('.', '');
-		transcription = transcription.replaceAll(',', '');
+        transcription = transcription.replaceAll(/[\.,]/g, '');
 		dispatch('set_parent_text', {transcription});
 	}
 </script>
 
 <div class="record-buttons">
-	<form on:submit={submitForm} enctype="multipart/form-data">
-		<input type="file" name="file" accept="audio/*" required />
-		<button type="submit">Transcribe File</button>
+	<form enctype="multipart/form-data">
+		<input bind:this={fileInput} on:change={submitForm} type="file" name="file" accept="audio/*" style="display: none;" />
 	</form>
+	<button on:click={() => fileInput && fileInput.click()}>Transcribe File</button>
 	{#if !recording}
 	<button on:click={startRecording}>Record (Whisper AI)</button>
 	{:else}
@@ -119,7 +126,7 @@
 <style>
 	.record-buttons {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		align-items: center;
 	}
 	button {

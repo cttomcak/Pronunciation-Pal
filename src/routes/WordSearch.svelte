@@ -1,15 +1,36 @@
 <script lang="ts">
     import WordVisemes from "./WordVisemes.svelte";
 	import WhisperRecord from "./WhisperRecord.svelte";
-	import AudioPlayer from "$lib/AudioPlayer.svelte";
-	import VisemeImage from "./VisemeImage.svelte";
+	import { userData } from './userData';
+	import { onDestroy } from "svelte";
+	
+	/** User favorites list */
+    let userFavorites: string[] = [];
 
+	/** Function to unsub from the userData store */
+    const unsubscribe = userData.subscribe(value => {
+		if (value)
+		{
+			userFavorites = JSON.parse((value as any).favorite_words || '[]')
+		}
+    });
+
+	onDestroy(unsubscribe);
+
+	/** If browser speech-to-text is enabled */
 	let speech_enabled: boolean = false;
+	/** Speech recognition object */
     let recognizer: any;
+	/** Whether the browser is recording right now */
 	let recording: boolean = false;
+	/** Search bar text value */
 	let search_text: string = '';
+	/** List of words currently searched */
 	let word_list: string[] = [];
+	/** List to store errors if they happen */
 	let errors: string[] = [];
+	/** Whether to show favorites or not */
+	let showFavorites: boolean = true;
 	// let generated_words: string[] = [];
 
 	// Check if window is defined (running on the client side)
@@ -22,6 +43,15 @@
 			if (recognizer) {
 				recognizer.onresult = results_callback;
 				speech_enabled = true;
+				recognizer.onstart = function () {
+					recording = true;
+				};
+				recognizer.onend = function () {
+					recording = false;
+				};
+				recognizer.onerror = function () {
+					recording = false;
+				};
 			}
 		} else {
 			console.error('SpeechRecognition API not supported on this browser');
@@ -32,7 +62,6 @@
      * Starts recording speech using the browser's speech recognition API.
      */
 	function record_speech() {
-		recording = true;
 		// Don't need to check since the button won't exist if feature not supported
 		recognizer.start();
 	}
@@ -42,8 +71,8 @@
      * @param {SpeechRecognitionEvent} result - The result object from speech recognition.
      */
 	function results_callback(result: SpeechRecognitionEvent) {
-		recording = false;
 		search_text = result.results[0][0].transcript;
+		update_word_list();
 	}
 
 	/**
@@ -57,7 +86,16 @@
 		setTimeout(() => {
 			errors.shift();
 			errors = errors;
-		}, 10000);
+		}, 5000);
+	}
+
+	/**
+	 * Removes a word from the word list.
+	 * @param {CustomEvent<number>} event - The index of the word to remove.
+	 */
+	function remove_word(event: CustomEvent<number>) {
+		word_list.splice(event.detail, 1);
+		word_list = word_list;
 	}
 
 	/**
@@ -71,6 +109,9 @@
 		}
 	}
 
+	/**
+	 * Updates the word list, inserting new words at the start.
+	 */
 	function update_word_list() {
 		// Add in new words if they exist
 		if (search_text.length > 0) {
@@ -94,6 +135,15 @@
 			update_word_list();
 		}
 	}
+
+	/**
+	 * Handles if favorite word was pressed; fills the text input and updates the word list.
+	 * @param event Button Press Event
+	 */
+	function handleFavButtonPress(event: Event) {
+		search_text = (event.target as HTMLButtonElement).id;
+		update_word_list();
+	}
 </script>
 
 <div class="search-wrapper">
@@ -109,25 +159,40 @@
 				{/if}
 			</button>
 		{/if}
-		<span style="display: inline-block;">
-			<div class="search">
-				<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
-				<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown}/>
+	</div>
+	<span style="display: inline-block;">
+		<div class="search">
+			<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
+			<input type="search" class="input" id="words_text_box" placeholder="Search" bind:value={search_text} on:keydown={handle_keydown}/>
+		</div>
+	</span>
+	<div class="favorites_section">
+		{#if userFavorites.length > 0}
+			<div>
+				<label for="show_favorites">Show Favorites</label>
+				<input name="show_favorites" type="checkbox" bind:checked={showFavorites}>
 			</div>
-		</span>
+			<div class='favorites_box'>
+				{#if showFavorites}
+					{#each userFavorites as favWord}
+						<button class="fav-button" on:click={handleFavButtonPress} id={favWord}>{favWord.charAt(0).toUpperCase() + favWord.slice(1)}</button>
+					{/each}
+				{/if}
+			</div>
+		{/if}
 	</div>
 	{#if errors.length > 0}
 		<div id="display_errors_here">
 			<strong>Errors:</strong>
 			{#each errors as error}
-				<p>{error}</p>
+				<p style="padding:0%; margin:0%;">{error}</p>
 			{/each}
 		</div>
 	{/if}
 	<div class="viseme_container">
-	{#each word_list as word}
-		<WordVisemes word={word} on:error={show_error} />
-	{/each}
+		{#each word_list as word, index}
+			<WordVisemes word={word} index={index} on:error={show_error} on:remove={remove_word}/>
+		{/each}
 	</div>
 </div>
 
@@ -137,11 +202,12 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		width: 100%;
 	}
 	.record-buttons {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	}
 	button {
 		margin: 5px;
@@ -216,5 +282,30 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		width: 100%;
+	}
+	.favorites_section {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.favorites_box {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		min-width: 14rem;
+		max-width: 40%;
+		padding: 5px;
+		margin: 5px;
+	}
+	.fav-button {
+		margin: 2px;
+		padding: 5px;
+		background-color: #4942E4;
+		color: #ffffff;
+		border: 3px solid #11009E;
+		border-radius: 4px;
+		cursor: pointer;
 	}
 </style>

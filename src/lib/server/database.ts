@@ -1,4 +1,4 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
-// Switch to use a real database for production
+/** Database Client using sqlite */
 export const DBClient = new Sequelize('sqlite::memory:');

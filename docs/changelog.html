@@ -1,0 +1,467 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>pronunciation-pal documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="./" class="navbar-brand">pronunciation-pal documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<p>commit 776e9ec292f24a78c06c1e6302f1a5cb962624bc
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Wed May 8 00:49:48 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added typedoc style comments to everything</code></pre></div><p>commit e028436620b1a708264d1a0ee4716575832f4fd9
+Merge: b5b59f7 d1237ad
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Tue May 7 19:15:23 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;develop&#39; of https://github.com/cttomcak/Team-12-SWAG-Pronunciation-Pal into develop</code></pre></div><p>commit b5b59f78bccc9d55c42b9ff12bf20b330d1b7cb1
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Tue May 7 19:15:18 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">CSS styling of login/register</code></pre></div><p>commit d1237ad16337c7e55b0ff713dfffdb6d1215983c
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue May 7 18:29:46 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">revert small css change</code></pre></div><p>commit ae0a9aa2e4ed268385f6d2fbf5a0259d4fc0b26e
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue May 7 02:40:25 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added testing scripts</code></pre></div><p>commit e37006781ed24b7821484d50786173b4b09494ed
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon May 6 23:55:16 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">extension dictionary edit</code></pre></div><p>commit bfd744202fd6feefb9367d6e50172579b7c82ab0
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon May 6 21:17:26 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">css changes + dictionary update + recording button change</code></pre></div><p>commit da2163e5675eda1ccb9a1adeba59c7032bd5931c
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon May 6 19:10:47 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">add show multiple visemes for certain phonemes feature to honors extension</code></pre></div><p>commit 20e706bd8624c1738cb120d49247a66c85881a81
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon May 6 18:51:33 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">show multiple viseme/diagram images for certain phonemes</code></pre></div><p>commit 587067c5b303da73e4a6d732e98689658c3d1fd8
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon May 6 02:29:35 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added favorites stuff to extension page</code></pre></div><p>commit 7215910a08c4e8eb187387782c28d388b9d4fb9c
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon May 6 01:33:37 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">small style changes, phoneme/viseme dict update, and browser recording button fix</code></pre></div><p>commit 9d0561e61753eaf0d77bf4b89938bd5399d83912
+Merge: ca55ea0 e745f21
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 23:35:09 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;user-favorites&#39; into develop</code></pre></div><p>commit ca55ea01eeca01e553533cdcd2ae6262d93037ef
+Merge: adef956 83e8fa1
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 23:26:33 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;whisper-api-backend&#39; into develop</code></pre></div><p>commit adef956004aad3fb2b20db0f3a8fd6dcdc84f9fd
+Merge: 4690409 e276d30
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 23:25:59 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;colin-extension&#39; into develop</code></pre></div><p>commit 4690409dbdcc9df71efd3a1d36941a8199b910fd
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Sun May 5 21:48:00 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Add word close button which can remove words</code></pre></div><p>commit 83e8fa17078b4c9d55cd0dd2410bc5405da2c24d
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Sun May 5 21:18:01 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Incorporate whisper API into svelte backend
+
+Changes:
+- Add whisper API to svelte backend
+- Change frontend to use svelte backend instead of external</code></pre></div><p>commit e745f21220ab84fa083ffd7e31795f6bdcce7517
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 04:05:53 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">just some comments</code></pre></div><p>commit 8ca88d656fe0a49a5795997815cba33472216353
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 03:53:21 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">bug fix with specific input of multiple words</code></pre></div><p>commit c99a0a972bd028818d20112b5acc6a4063d260e7
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 03:45:25 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">fixed a bug and removed debugging helper code</code></pre></div><p>commit 7facefd98db7f06a079cf51aa98e3aaaf4a6a11e
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun May 5 03:07:57 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added favorite words feature for users</code></pre></div><p>commit 18493bd8c39435c11dff12bbce2ac36af5e20d8a
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Sat May 4 22:44:17 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Make buttons share same row</code></pre></div><p>commit e276d301b0fdb7708b42af71c136ba4255d1797a
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sat May 4 15:55:24 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added to whisper to animation page and fixxed recording button problem</code></pre></div><p>commit f4e237fe831a5b21dd732fa53a08f3008d7a2de2
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Apr 30 18:21:06 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">implemented variable phoneme lengths</code></pre></div><p>commit 70e393f1549060f66700d2fb348e79c830fa997d
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Mon Apr 22 23:40:14 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added slider for speed (number of interpolation frames)</code></pre></div><p>commit 664cca2eaf5b7bb2b792e3f6c2e69b70daf73b61
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 18 22:30:18 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Add note about extension in M4 release notes</code></pre></div><p>commit 28a948db3c199a6d7b03d7f0ca4277b1bfd25b77
+Merge: 316ee67 c3aab0f
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 18 22:23:25 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #7 from cttomcak/develop
+
+Develop</code></pre></div><p>commit c3aab0f0dc22e199d67a332cd3dbaef7b69f11c7
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Apr 18 22:15:30 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Add support for multiple words</code></pre></div><p>commit c0685e5d4746fea799d4e5d5ab48c0192011c6ba
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 18 21:44:54 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">finished porting what I made in python, and added an interface for searching/entering words</code></pre></div><p>commit 48a20f603e28c86e4468bf39079825fdb8668378
+Merge: 271d31b c5353f5
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 18 19:08:57 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #6 from cttomcak/add-whisper
+
+Add whisper</code></pre></div><p>commit c5353f508ba14be83c0b9ed52409944fd7333f22
+Merge: 5e2e29a 271d31b
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 18 19:08:38 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;develop&#39; into add-whisper</code></pre></div><p>commit 271d31b85f96df05e98bd26d0d7da3801c383109
+Author: clschweike <a href="mailto:67573858+clschweike@users.noreply.github.com">67573858+clschweike@users.noreply.github.com</a>
+Date:   Thu Apr 18 19:07:04 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">First update of README.md for M4</code></pre></div><p>commit 5e2e29a2892773733520abc87d5db01d6413909f
+Merge: ac32f63 045a8ce
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 18 19:04:53 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;add-whisper&#39; of https://github.com/cttomcak/Team-12-SWAG-Pronunciation-Pal into add-whisper</code></pre></div><p>commit ac32f63c69fe8b9e3437912d0e848daa58cea119
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 18 19:04:04 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">dictionary fix and tiny amount of css</code></pre></div><p>commit 045a8ce65264d91a725a83c7589242b26d880fb7
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Apr 18 19:01:56 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Remove duplicate key</code></pre></div><p>commit 94980cacf66ea79f7294cb3edc2f52d02315dada
+Merge: 154d5e0 c6136aa
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 18 18:52:17 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #5 from cttomcak/image-or-diagram
+
+Image or diagram</code></pre></div><p>commit c6136aabd41a3c41ff929258b826e5e67a02af4e
+Merge: f896aa9 154d5e0
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 18 18:51:58 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;add-whisper&#39; into image-or-diagram</code></pre></div><p>commit f896aa9d0926ed5c2993c3620eeff657556a34a2
+Merge: 56a759d f007e67
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 18 18:43:32 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">resolved merge conflicts</code></pre></div><p>commit 56a759d6d6c3129976bb991576a1ee6ee115f1c8
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 18 18:35:25 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">finished viseme/diagram toggle button</code></pre></div><p>commit a4cd639fa143d17d4de65352d206dd7222752eaa
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 18 18:10:48 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">ported my python honors extension code into the sveltekit project, almost fully implemented at this point</code></pre></div><p>commit f007e67f812eb668def44e1b7184d9dd585417b4
+Author: clschweike <a href="mailto:67573858+clschweike@users.noreply.github.com">67573858+clschweike@users.noreply.github.com</a>
+Date:   Tue Apr 9 23:23:16 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Added speech-sound diagrams and not-yet-functional toggle button</code></pre></div><p>commit 154d5e088a2f1bfd0e2a39ce01f4de056d71500d
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Apr 9 23:12:42 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">rename autogenerated documentation folder to docs</code></pre></div><p>commit 0a46107af17c90811490e425ff2c7cd23b324ca1
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Apr 9 22:51:55 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added generated documentation by using compodoc. Generates docs on files in filesForDocs as a temporary solution to the svelte file problem</code></pre></div><p>commit 07813158f092b8e7a6d096f47dc75900a1a6a980
+Merge: 39ae319 61c8021
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Apr 9 19:15:17 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;add-whisper&#39; of https://github.com/cttomcak/Team-12-SWAG-Pronunciation-Pal into add-whisper</code></pre></div><p>commit 39ae3190753da2cbe2d4b080d14bf40d0f391ecc
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Apr 9 19:12:48 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Added typedoc-style comments to a couple files</code></pre></div><p>commit 233bf2ded12b5e0c725d1b268316af3e81167ffe
+Author: clschweike <a href="mailto:67573858+clschweike@users.noreply.github.com">67573858+clschweike@users.noreply.github.com</a>
+Date:   Fri Apr 5 01:57:21 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Added phoneme to diagram dictionary</code></pre></div><p>commit 61c80216e232f3287f18d6513d591cc16a040dec
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Apr 4 23:57:36 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">changed milestone 3 release notes</code></pre></div><p>commit d1907f6b07ed79ed6597b5c292b42deff8f81cd2
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 4 22:19:45 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added milestone 3 release notes</code></pre></div><p>commit 0006b4525e44dd2f32c1b40e08645bc814901f9f
+Author: Fraggenard <a href="mailto:fraggenard@gmail.com">fraggenard@gmail.com</a>
+Date:   Thu Apr 4 20:32:49 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">CSS experimentation</code></pre></div><p>commit 3ced482c9077e581111e58fddd077e6f0f894c05
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Apr 4 18:28:09 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added feature for whisper API speech-to-text transcription</code></pre></div><p>commit 316ee67009d7767d0ab0a3c04edf44e985c85f61
+Merge: abeceaa 804e748
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Mar 21 22:51:39 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #4 from cttomcak/main-page
+
+Main page</code></pre></div><p>commit 804e74819f795f3f768e5995ecc20ec8559401d7
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Mar 21 22:39:54 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Restyle viseme cards to be more visually appealing</code></pre></div><p>commit 4c7082c89a7e7fce2b52aa624cb5f556d0c813f5
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Mar 21 22:14:08 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Change styling of the Viseme holder word info</code></pre></div><p>commit 257fbb37f2ca98dfe32b07e29c3212150a10d7e4
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Mar 21 21:53:28 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">feat: Add responsive navbar</code></pre></div><p>commit 5dc529af4b71d6d8676fa503bf359d08dcf53931
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Mar 21 21:07:18 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Reformat search and styling
+
+Changes:
+- Removed search submit button
++ Added search submit on enter/unfocus input
+= Restyled search input
+= Refactored code to take advantage of Svelte&#39;s reactivity
++ Hides error box if no errors
++ Errors expire automatically after 10 seconds
++ Hides record button if speech recognition isn&#39;t available</code></pre></div><p>commit cc1035000391cef74e94ffffad91a38895750b99
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Mar 21 19:20:25 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">typed release notes for milestone 2</code></pre></div><p>commit 1c0627c1990271f15a50ee74dde15ae7c1227a19
+Author: clschweike <a href="mailto:67573858+clschweike@users.noreply.github.com">67573858+clschweike@users.noreply.github.com</a>
+Date:   Thu Mar 21 19:00:07 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">added Pronunciation Pal logo</code></pre></div><p>commit b3d0cea5be546526341e3d3b72a99dc971a7d589
+Merge: a89e393 589a2ef
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Mar 21 18:48:31 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;main-page&#39; of https://github.com/cttomcak/Team-12-SWAG-Pronunciation-Pal into main-page</code></pre></div><p>commit a89e393459c88b0dcf954b06132ed77e9c66e852
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Mar 21 18:48:13 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">changed mapping in viseme dict</code></pre></div><p>commit 589a2efa72c5ef2a434e21bd76f9dac1cd54c4eb
+Merge: e108768 ed7016f
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Mar 21 18:37:01 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;main-page&#39; of https://github.com/cttomcak/Team-12-SWAG-Pronunciation-Pal into main-page</code></pre></div><p>commit e1087685c07f8cabd49957c5fb457508dd426c93
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Wed Mar 20 19:36:33 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Added remaining assorted visemes (that I could find)</code></pre></div><p>commit ed7016fedc8c22f0040f305320edc95ecf34dab0
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Mar 21 18:35:11 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">bug fix with generated_words</code></pre></div><p>commit f39a88641a8dc68360b86a7c2aad0039af2db20f
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Wed Mar 20 17:33:49 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Added dental and labiodental visemes</code></pre></div><p>commit 72a1734398e1f189652988190da57171d9e00e05
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Wed Mar 20 15:31:17 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Changed login to sign up on register page</code></pre></div><p>commit d93d1ae72204d97564f00f415b9ec2382f3d5ee8
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Wed Mar 20 15:29:50 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Added Alveolar Visemes</code></pre></div><p>commit b23dc459ff7d2b9caff6250aa3bf9a86d9090359
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun Mar 17 23:26:45 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">small changes to dict and home page wordbox</code></pre></div><p>commit a7b87c19a92c10c8ee3f0d78fd22a54cdd787cb2
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Sun Mar 17 23:04:19 2024 -0500</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">created main page, added viseme images in static, added phoneme/viseme dicts in lib, added layout file, added header, added styles.css</code></pre></div><p>commit abeceaa14fa626c41d5467e01c7c7e8dc83dfba4
+Merge: 1e05fdc c4a8497
+Author: Matthew <a href="mailto:matthew.heywood@bytethebullets.com">matthew.heywood@bytethebullets.com</a>
+Date:   Thu Feb 29 23:06:57 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #3 from cttomcak/develop
+
+Milestone 1</code></pre></div><p>commit c4a84974d3d41bd0377a025b1d2ea2ba651ca02d
+Merge: 09030ad 52cc522
+Author: Matthew <a href="mailto:matthew.heywood@bytethebullets.com">matthew.heywood@bytethebullets.com</a>
+Date:   Thu Feb 29 23:05:13 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #2 from cttomcak/word-info-page
+
+Word info page</code></pre></div><p>commit 09030adda886259f03d9b0cfb93ca223b7be9aeb
+Merge: 1e05fdc d424b60
+Author: Colin Tomcak <a href="mailto:123412642+cttomcak@users.noreply.github.com">123412642+cttomcak@users.noreply.github.com</a>
+Date:   Thu Feb 29 23:02:46 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge pull request #1 from cttomcak/feature/authentication
+
+Feature/authentication</code></pre></div><p>commit d424b60a2e0970756465ac2387c3576e02b0f7d6
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Thu Feb 29 22:03:09 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">feat: Add login, register, and logout functionality
+
+Changes:
+- Auth core package
++ Custom local auth with bcrypt and JWT
++ Login, register, and logout routes
++ Login page
++ Greeting on profile page
++ Basic authorization functionality on some pages
++ Hook for adding user (if logged in) to locals store
++ Database model for user
++ Database connection and setup, currently in memory sqlite for
+  development reasons ease of use
+= Moved signup page to register page and made tweaks to work with
+  auth system</code></pre></div><p>commit 52cc522153a904a0d98f287d7d7ad4640d6bf6aa
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Feb 29 21:23:22 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">change button color</code></pre></div><p>commit 61b391a8c3c228950cbcfc2bb128a5675c971950
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Thu Feb 29 19:48:23 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">minor changes to basic word info page</code></pre></div><p>commit ead9e4e345bddde24c594d2e3027b48709076e2c
+Author: Fraggenard <a href="mailto:fraggenard@gmail.com">fraggenard@gmail.com</a>
+Date:   Thu Feb 29 19:39:14 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">barebones signup page and homepage login link</code></pre></div><p>commit 5bf02b6c3395896006dc2900ebb7812a1a41fb78
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Wed Feb 28 23:36:36 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">wip: Trying to get auth to work
+
+Need to work on getting sequelize or some other adapter to work with authjs, or pivot and use passport.</code></pre></div><p>commit 1e05fdc5d112795b8f8e5a0d7307aa20b09b9770
+Merge: 3c041bc 96057bb
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Wed Feb 28 22:25:10 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">Merge branch &#39;main&#39; of https://github.com/cttomcak/Team-12-SWAG-Pronunciation-Pal</code></pre></div><p>commit 96057bba804a5e29045610d2b5d48f72a58da2eb
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Feb 27 19:26:11 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">edit readme for milestone 1</code></pre></div><p>commit 3c041bcae61cb32318ebc3686ee5d740550d01f1
+Author: Matthew Heywood <a href="mailto:matthew@bytethebullets.com">matthew@bytethebullets.com</a>
+Date:   Tue Feb 27 19:15:08 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">feat: Add Docker build files</code></pre></div><p>commit be9fa67ed6c315d80633b0523e507e3a3421292b
+Author: cttomcak <a href="mailto:cttomcak@gmail.com">cttomcak@gmail.com</a>
+Date:   Tue Feb 27 18:54:02 2024 -0600</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-none">convert to typescript project</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'changelog.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

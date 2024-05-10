@@ -1,4 +1,7 @@
 <script>
+	import { userData } from './userData';
+	export let loggedIn = false;
+
 </script>
 
 <header>
@@ -8,9 +11,16 @@
 		<label for="nav-check" class="nav-chlab">☰</label>
 		<div class="navbar-links">
 			<a href="/">Home</a>
-			<a href="/auth/login">Login</a>
-			<a href="/auth/register">Register</a>
+			<a href="/animation">Speech Animation</a>
+			{#if loggedIn}
 			<a href="/profile">Profile</a>
+			<form action="/auth?/logout" method="POST">
+				<button type="submit">Logout</button>
+			</form>
+			{:else}
+				<a href="/auth/login">Login</a>
+				<a href="/auth/register">Register</a>
+			{/if}
 		</div>
 	</nav>
 </header>
@@ -54,6 +64,22 @@
 		text-decoration: none;
 	}
 	.navbar-links > a:hover {
+		background-color: #11009E;
+	}
+	form {
+		display: inline-block;
+	}
+	button {
+		transition: all 0.4s ease-in;
+		background-color: #4942E4;
+		color: white;
+		border: none;
+		cursor: pointer;
+		display: inline-block;
+		padding: 10px;
+		font-size: 18px;
+	}
+	button:hover {
 		background-color: #11009E;
 	}
 	@media (max-width: 600px) {

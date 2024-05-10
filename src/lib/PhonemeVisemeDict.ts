@@ -1,10 +1,4 @@
-// This is the current mapping of IPA phoneme symbols to visemes (in static).
-// I think it's pretty accurate, but change it if there's a problem and leave a comment.
-//
-// If you ever get an error in the console saying "UNMAPPED PHONEME CHARACTER" you need
-// to figure out what it is and add it to the dictionary with the proper viseme mapping (ask chad).
-//
-// The API returns a lot of differing unicode characters for equivelant or similar phonemes.
+/** Mappings of IPA phoneme symbols to visemes */
 export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "p" : "PP",
     "b" : "PP",
@@ -44,6 +38,8 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "ɛ" : "E",
     "ɔ" : "O",
     "ɑ" : "aa",
+    "ɐ" : "O",
+    "oː" : "O,RR", // Changed from 'O' to 'O,RR'
     "ɑː" : "aa",
     "ʉː" : "U",
     "i" : "I",
@@ -51,11 +47,11 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "ɨ" : "I",
     "ɜː" : "E",
     "uː" : "U",
-    "ɔː" : "O",
+    "ɔː" : "O,RR", // Changed from 'O' to 'O,RR'
     "eɪ" : "E",
-    "aɪ" : "aa",
-    "ɔɪ" : "O",
-    "aʊ" : "O",
+    "aɪ" : "aa,I", // Changed from 'aa' to 'aa,I'
+    "ɔɪ" : "O,I", // Changed from 'O' to 'O,I'
+    "aʊ" : "aa,U", // Changed from 'O' to 'aa,U'
     "əʊ" : "O",
     "ɪə" : "I",
     "eə" : "E",
@@ -65,9 +61,8 @@ export const phoneme_to_viseme_dict: { [id: string] : string; } = {
     "oʊ" : "O",
 };
 
-// Description of the 15 visemes that I have.
-// Most sources say there's only 10-16 meaningfully different visemes.
-// I think this collection is pretty good.
+/** Description of the 15 visemes used in this project.
+Most sources say there's only 10-16 meaningfully different visemes. */
 export const viseme_description_dict: { [id: string] : string; } = {
     "aa" : "Wide, open mouth shape",
     "CH" : "Spread lip position, resembling 'sh'",
@@ -86,8 +81,7 @@ export const viseme_description_dict: { [id: string] : string; } = {
     "U" : "Rounded lip shape with relatively open mouth"
 };
 
-/* not sure if these are completely accurate... used Chad (who had his own names for some) 
-+ my own understanding of pronunciation classifications. Maybe check with Korey if we can */ 
+/** Mappings of IPA phoneme symbols to speech-sound diagrams */
 export const phoneme_to_diagram_dict: { [id: string] : string; } = {
     "p" : "voiceless-bilabial-plosive",
     "b" : "voiced-bilabial-plosive",
@@ -96,7 +90,7 @@ export const phoneme_to_diagram_dict: { [id: string] : string; } = {
     "ɾ" : "voiced-alveolar-approximant", 
     "k" : "voiceless-velar-plosive",
     "g" : "voiced-velar-plosive",
-    "ɡ" : "voiced-velar-plosive", /* shouldn't this be different from the last one? */
+    "ɡ" : "voiced-velar-plosive",
     "f" : "voiceless-labiodental-fricative",
     "v" : "voiced-labiodental-fricative",
     "θ" : "voiceless-dental-fricative",
@@ -125,7 +119,10 @@ export const phoneme_to_diagram_dict: { [id: string] : string; } = {
     "ə" : "voiceless-alveolar-fricative",
     "ɜ" : "voiced-alveolar-approximant",
     "ɛ" : "voiceless-postalveolar-fricative",
+    "ɔ" : "voiced-alveolar-approximant",
     "ɑ" : "voiced-velar-nasal",
+    "ɐ" : "voiced-alveolar-approximant",
+    "oː" : "voiced-alveolar-approximant,voiced-alveolar-trill",
     "ɑː" : "voiceless-postalveolar-fricative",
     "ʉː" : "voiced-bilabial-nasal",
     "i" : "voiced-palatal-approximant",
@@ -133,11 +130,11 @@ export const phoneme_to_diagram_dict: { [id: string] : string; } = {
     "ɨ" : "voiced-palatal-approximant",
     "ɜː" : "voiced-alveolar-approximant",
     "uː" : "voiced-labial-velar-approximant",
-    "ɔː" : "voiced-alveolar-approximant",
+    "ɔː" : "voiced-alveolar-approximant,voiced-alveolar-trill",
     "eɪ" : "voiced-alveolar-approximant",
-    "aɪ" : "voiceless-postalveolar-fricative",
-    "ɔɪ" : "voiced-labial-velar-approximant",
-    "aʊ" : "voiceless-postalveolar-fricative",
+    "aɪ" : "voiceless-postalveolar-fricative,voiceless-labiodental-fricative",
+    "ɔɪ" : "voiced-labial-velar-approximant,voiceless-labiodental-fricative",
+    "aʊ" : "voiceless-postalveolar-fricative,voiced-labial-velar-approximant",
     "əʊ" : "voiceless-postalveolar-fricative",
     "ɪə" : "voiced-postalveolar-fricative",
     "eə" : "voiced-postalveolar-fricative",
