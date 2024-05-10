@@ -2,20 +2,20 @@
 @REM It has to have the web driver (one already exists for Windows) and a version of selenium less than 4.3 (run "pip3 install selenium==4.2.0")
 @REM Watch the output for whether the tests are successful or failing.
 
-@REM echo Simple Word Generation
-@REM python ./SimpleWordGeneration.py
-@REM echo Multiple Word Generation
-@REM python ./MultipleWordGeneration.py
-@REM echo Simple Word Deletion
-@REM python ./SimpleWordDeletion.py
-@REM echo Multiple Word Deletion
-@REM python ./MultipleWordDeletion.py
-@REM echo Toggle Diagrams
-@REM python ./ToggleDiagrams.py
-@REM echo Audio Button Exists
-@REM python ./AudioButtonExists.py
-@REM echo No Auth Header Links
-@REM python ./NoAuthHeaderLinks.py
+echo Simple Word Generation
+python ./SimpleWordGeneration.py
+echo Multiple Word Generation
+python ./MultipleWordGeneration.py
+echo Simple Word Deletion
+python ./SimpleWordDeletion.py
+echo Multiple Word Deletion
+python ./MultipleWordDeletion.py
+echo Toggle Diagrams
+python ./ToggleDiagrams.py
+echo Audio Button Exists
+python ./AudioButtonExists.py
+echo No Auth Header Links
+python ./NoAuthHeaderLinks.py
 echo Register
 python ./Register.py
 echo Log In

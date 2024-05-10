@@ -18,8 +18,9 @@ class MainPageFavorites(unittest.TestCase):
     
     def test_main_page_favorites(self):
         driver = self.driver
+        time.sleep(.2)
         driver.get("http://localhost:5173/")
-        time.sleep(.1)
+        time.sleep(.2)
         driver.find_element_by_link_text("Login").click()
         time.sleep(.2)
         driver.find_element_by_id("email").click()
@@ -42,7 +43,7 @@ class MainPageFavorites(unittest.TestCase):
         time.sleep(.2)
         driver.find_element_by_xpath("//input[@type='text']").send_keys("test")
         time.sleep(.2)
-        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Profile Page'])[1]/following::button[1]").click()
+        driver.find_element_by_xpath("//*/text()[normalize-space(.)='Add Favorite Word']/parent::*").click()
         time.sleep(.2)
         driver.find_element_by_xpath("//input[@type='text']").click()
         time.sleep(.2)
@@ -50,7 +51,7 @@ class MainPageFavorites(unittest.TestCase):
         time.sleep(.2)
         driver.find_element_by_xpath("//input[@type='text']").send_keys("hello")
         time.sleep(.2)
-        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Profile Page'])[1]/following::button[1]").click()
+        driver.find_element_by_xpath("//*/text()[normalize-space(.)='Add Favorite Word']/parent::*").click()
         time.sleep(.2)
         driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Profile'])[1]/following::main[1]").click()
         time.sleep(.2)

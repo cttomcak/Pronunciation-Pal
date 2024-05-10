@@ -29,7 +29,7 @@ class SimpleWordDeletion(unittest.TestCase):
         time.sleep(.2)
         driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Record (Browser)'])[1]/following::span[2]").click()
         time.sleep(.2)
-        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Profile'])[1]/following::section[1]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Register'])[1]/following::section[1]").click()
         time.sleep(.2)
     
     def is_element_present(self, how, what):

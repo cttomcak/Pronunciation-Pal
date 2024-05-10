@@ -63,12 +63,12 @@
 </script>
 
 <section>
-    <h1>Hello, {data.user.first_name}</h1>
+    <h1>Hello, {data.user.first_name.charAt(0).toUpperCase() + data.user.first_name.slice(1)}</h1>
     <div class="search">
         <input type="text" bind:value={newWord} on:keydown={handle_keydown} placeholder="Favorite"/>
         <button class="favorite-button" on:click={addFavoriteWord}>Add Favorite Word</button>
     </div>
-    {#if JSON.parse(data.user.favorite_words).length > 0}
+    {#if JSON.parse(data.user.favorite_words || '[]').length > 0}
     <div class="favorites-box">
         <h3>Favorite Words:</h3>
         <ul>
@@ -113,17 +113,21 @@
 		margin: 2px;
         margin-left: 20px;
 		padding: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
 		background-color: #4942E4;
 		color: #ffffff;
 		border: 3px solid #11009E;
 		border-radius: 4px;
 		cursor: pointer;
+        min-width: fit-content;
 	}
     .favorites-box {
         background-color: white;
-        padding: 10px;
+        padding: 15px;
         margin-top: 20px;
         border-radius: 10px;
+        box-shadow: 2px 2px 16px 2px rgba(0, 0, 0, 0.15);
     }
     ul {
         display: flex;
