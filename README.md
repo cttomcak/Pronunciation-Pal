@@ -22,6 +22,9 @@ The branch that needs to be looked at for this milestone is the 'add-whisper' br
 ## Milestone 4 Release Notes
 Since milestone 3, we have implemented a few new features into Pronunciation Pal. We began implementing a new, gamified experience for users to interact with the application, with various visual features and score-tracking in order to make it more appealing. We also implemented an option to view speech-sound diagrams instead of images of a human face, and we added the relevant phoneme to the label on each card so that users can now see both the viseme and phoneme associated with the displayed image. There's also another branch where Colin's honors extension code (initially in python) has been ported into the svelte project (branch name is colin-extension).
 
+## Milestone 5 Release Notes
+In milestone 5, we added the previously separate Whisper AI API backend into the project, integrating it so you only have to run one command. We also added a favorites feature for users. We made a lot of CSS changes, improving the look of the site, specifically the login, register, and profile pages. Next, we added selenium tests, typedoc comments, and generated documentation. We also added the ability to for one phoneme to map to multiple visemes, improving accuracy. We added a delete button for searched words in the main page. The main branch is the most up to date.
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
