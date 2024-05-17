@@ -1,19 +1,16 @@
 <script lang="ts">
 	import VisemeImage from './VisemeImage.svelte';
 	import { phoneme_to_viseme_dict } from '../lib/PhonemeVisemeDict';
-<<<<<<< HEAD
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import AudioPlayer from '$lib/AudioPlayer.svelte';
 	import AddFavoriteButton from './AddFavoriteButton.svelte';
 	import { userData } from './userData';
+	import { levenshteinDistance } from '$lib/Levenshtein';
+	import { generateFeedback } from '$lib/Feedback';
 	
 	/** Whether to show favorite button */
     let showFavoriteButton = false;
-=======
-	import { createEventDispatcher, onMount } from 'svelte';
-	import AudioPlayer from '$lib/AudioPlayer.svelte';
 	import PhonemeRecord from './PhonemeRecord.svelte';
->>>>>>> 5f641c8 (Add PhonemeRecord component and update WordVisemes)
 
 	/** Function to unsub from the userData store */
     const unsubscribe = userData.subscribe(value => {
@@ -131,7 +128,10 @@
 		dispatch('remove', index);
 	}
 	function updatePhonemes(event: CustomEvent) {
-		phonemeAnalysis = event.detail.phonemes;
+		// phonemeAnalysis = event.detail.phonemes;
+		const spokenPhonemes = event.detail.phonemes.replaceAll(' ', '');
+		// const diff = levenshteinDistance(spokenPhonemes, phonemes);
+		phonemeAnalysis = generateFeedback(spokenPhonemes, phonemes.substring(1, phonemes.length - 1));
 	}
 
 </script>
@@ -168,7 +168,11 @@
 			<input name="show_images" type="checkbox" bind:checked={showImages}>
 			</div>
 			</div>
-			<p>{phonemeAnalysis}</p>
+			<div>
+				{#each phonemeAnalysis.split('\n') as p }
+					<p>{p}</p>
+				{/each}
+			</div>
 		</div>
 		<!-- Where the viseme pictures go -->
 		{#if showImages}
@@ -182,11 +186,6 @@
 </div>
 
 <style>
-	.button-row {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-	}
 	.general_info {
 		margin-top: 1rem;
 		width: 100%;
